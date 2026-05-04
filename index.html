@@ -1,14 +1,143 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>dev-to-do</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-    <h3>testing</h3>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevTodo – Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background Grid -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+      <span class="logo-icon">▣</span>
+      <span class="logo-text">DevTodo</span>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn" title="Help">?</button>
+      <button class="nav-btn" title="Settings">⚙</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="card" id="loginCard">
+
+      <!-- Header -->
+      <div class="card-header">
+        <h1 class="card-title">Welcome back,<br><span class="highlight">Developer.</span></h1>
+        <p class="card-subtitle">Log in to enter your flow state.</p>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span class="divider-line"></span>
+        <span class="divider-text">credentials</span>
+        <span class="divider-line"></span>
+      </div>
+
+      <!-- Form -->
+      <form class="login-form" id="loginForm" novalidate>
+
+        <div class="form-group" id="usernameGroup">
+          <label class="form-label" for="username">Username</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </span>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              class="form-input"
+              placeholder="your_username"
+              autocomplete="username"
+              spellcheck="false"
+            />
+          </div>
+          <span class="form-error" id="usernameError"></span>
+        </div>
+
+        <div class="form-group" id="passwordGroup">
+          <div class="label-row">
+            <label class="form-label" for="password">Password</label>
+            <a href="#" class="forgot-link" id="forgotLink">Forgot password?</a>
+          </div>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </span>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-input"
+              placeholder="••••••••••••"
+              autocomplete="current-password"
+            />
+            <button type="button" class="toggle-pass" id="togglePass" title="Show/Hide password">
+              <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <span class="form-error" id="passwordError"></span>
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" id="rememberMe" class="checkbox-input"/>
+            <span class="checkbox-custom"></span>
+            <span class="checkbox-text">Remember me</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn-signin" id="signInBtn">
+          <span class="btn-text">Sign In</span>
+          <span class="btn-loader" id="btnLoader"></span>
+        </button>
+
+      </form>
+
+      <p class="signup-text">
+        Don't have an account? <a href="signup.html" class="signup-link">Sign up</a>
+      </p>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span class="footer-copy">© 2024 DEVTODO INC. BUILT FOR THE FLOW STATE.</span>
+    <div class="footer-links">
+      <a href="#" class="footer-link">DOCUMENTATION</a>
+      <a href="#" class="footer-link">PRIVACY</a>
+      <a href="#" class="footer-link">TERMS</a>
+      <a href="#" class="footer-link">SUPPORT</a>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toastIcon"></span>
+    <span class="toast-msg" id="toastMsg"></span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>

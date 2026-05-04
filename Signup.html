@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevTodo – Create Account</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background Grid -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow--signup"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+      <span class="logo-icon">▣</span>
+      <span class="logo-text">DevTodo</span>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn" title="Help">?</button>
+      <button class="nav-btn" title="Settings">⚙</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="card" id="signupCard">
+
+      <!-- Header -->
+      <div class="card-header">
+        <div class="card-badge">NEW ACCOUNT</div>
+        <h1 class="card-title">Start your<br><span class="highlight">flow state.</span></h1>
+        <p class="card-subtitle">Create an account and ship things that matter.</p>
+      </div>
+
+      <!-- Progress Steps -->
+      <div class="progress-steps">
+        <div class="step step--active" data-step="1">
+          <span class="step-dot"></span>
+          <span class="step-label">Identity</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step" data-step="2">
+          <span class="step-dot"></span>
+          <span class="step-label">Security</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step" data-step="3">
+          <span class="step-dot"></span>
+          <span class="step-label">Done</span>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span class="divider-line"></span>
+        <span class="divider-text">fill in details</span>
+        <span class="divider-line"></span>
+      </div>
+
+      <!-- Form -->
+      <form class="login-form" id="signupForm" novalidate>
+
+        <!-- Full Name -->
+        <div class="form-group" id="nameGroup">
+          <label class="form-label" for="fullname">Full Name</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </span>
+            <input
+              type="text"
+              id="fullname"
+              name="fullname"
+              class="form-input"
+              placeholder="John Doe"
+              autocomplete="name"
+              spellcheck="false"
+            />
+            <span class="input-check" id="nameCheck"></span>
+          </div>
+          <span class="form-error" id="nameError"></span>
+        </div>
+
+        <!-- Username -->
+        <div class="form-group" id="usernameGroup">
+          <label class="form-label" for="username">
+            Username
+            <span class="label-hint">— visible to others</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <!-- @ symbol -->
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="4"/>
+                <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/>
+              </svg>
+            </span>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              class="form-input"
+              placeholder="your_handle"
+              autocomplete="username"
+              spellcheck="false"
+            />
+            <span class="input-check" id="usernameCheck"></span>
+          </div>
+          <span class="form-hint" id="usernameHint">Letters, numbers, underscores only.</span>
+          <span class="form-error" id="usernameError"></span>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group" id="passwordGroup">
+          <label class="form-label" for="password">Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </span>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-input"
+              placeholder="••••••••••••"
+              autocomplete="new-password"
+            />
+            <button type="button" class="toggle-pass" id="togglePass" title="Show/Hide password">
+              <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <!-- Password Strength Bar -->
+          <div class="strength-bar" id="strengthBar">
+            <div class="strength-track">
+              <div class="strength-fill" id="strengthFill"></div>
+            </div>
+            <span class="strength-label" id="strengthLabel">—</span>
+          </div>
+          <span class="form-error" id="passwordError"></span>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group" id="confirmGroup">
+          <label class="form-label" for="confirmPassword">Confirm Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </span>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              class="form-input"
+              placeholder="••••••••••••"
+              autocomplete="new-password"
+            />
+            <span class="input-check" id="confirmCheck"></span>
+          </div>
+          <span class="form-error" id="confirmError"></span>
+        </div>
+
+        <!-- Terms -->
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" id="agreeTerms" class="checkbox-input"/>
+            <span class="checkbox-custom"></span>
+            <span class="checkbox-text">
+              I agree to the <a href="#" class="inline-link">Terms</a> and <a href="#" class="inline-link">Privacy Policy</a>
+            </span>
+          </label>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-signin btn-signup" id="signUpBtn">
+          <span class="btn-text">Create Account</span>
+          <span class="btn-loader" id="btnLoader"></span>
+        </button>
+
+      </form>
+
+      <p class="signup-text">
+        Already have an account? <a href="index.html" class="signup-link">Sign in</a>
+      </p>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span class="footer-copy">© 2024 DEVTODO INC. BUILT FOR THE FLOW STATE.</span>
+    <div class="footer-links">
+      <a href="#" class="footer-link">DOCUMENTATION</a>
+      <a href="#" class="footer-link">PRIVACY</a>
+      <a href="#" class="footer-link">TERMS</a>
+      <a href="#" class="footer-link">SUPPORT</a>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toastIcon"></span>
+    <span class="toast-msg" id="toastMsg"></span>
+  </div>
+
+  <script src="signup.js"></script>
+</body>
+</html>
