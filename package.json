@@ -10,5 +10,18 @@
   },
   "devDependencies": {
     "vite": "^8.0.10"
-  }
+  },
+  "description": "",
+  "main": "script.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GerinNugroho/dev_to_do.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GerinNugroho/dev_to_do/issues"
+  },
+  "homepage": "https://github.com/GerinNugroho/dev_to_do#readme"
 }
