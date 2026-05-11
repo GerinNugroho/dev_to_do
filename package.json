@@ -23,5 +23,9 @@
   "bugs": {
     "url": "https://github.com/GerinNugroho/dev_to_do/issues"
   },
-  "homepage": "https://github.com/GerinNugroho/dev_to_do#readme"
+  "homepage": "https://github.com/GerinNugroho/dev_to_do#readme",
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "tailwindcss": "^4.3.0"
+  }
 }
