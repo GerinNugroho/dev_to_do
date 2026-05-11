@@ -1,7 +1,3 @@
-import "./style.css";
-import "./LoginPage/loginpage.css";
-import "./Register/register.css";
-import "./Dashboard/dashboard.css";
 import { LoginPage, initLoginLogic } from "./LoginPage/loginpage.js";
 import { RegisterPage, initRegisterLogic } from "./Register/register.js";
 import { DashboardPage, initDashboardLogic } from "./Dashboard/dashboard.js";
