@@ -1,1 +1,214 @@
 @import "tailwindcss";
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 2px;
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+}
+
+/* ════════════════════════════════════════════════════════════
+   ANIMATIONS
+════════════════════════════════════════════════════════════ */
+
+/* Fade in up — kanban cards */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-in-up {
+  animation: fadeInUp 0.4s ease forwards;
+}
+.delay-1 {
+  animation-delay: 0.05s;
+}
+.delay-2 {
+  animation-delay: 0.1s;
+}
+.delay-3 {
+  animation-delay: 0.15s;
+}
+.delay-4 {
+  animation-delay: 0.2s;
+}
+
+/* Pulse dot — github badge */
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* Wave — sprint velocity chart line */
+@keyframes wave {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+.chart-line {
+  stroke-dasharray: 1000;
+  animation: wave 2s ease forwards;
+}
+
+/* Section fade in — settings cards */
+@keyframes sectionFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.settings-section {
+  animation: sectionFadeIn 0.35s ease forwards;
+}
+.settings-section:nth-child(1) {
+  animation-delay: 0s;
+}
+.settings-section:nth-child(2) {
+  animation-delay: 0.05s;
+}
+.settings-section:nth-child(3) {
+  animation-delay: 0.1s;
+}
+.settings-section:nth-child(4) {
+  animation-delay: 0.15s;
+}
+
+/* Toast transition (Vue <transition>) */
+.toast-enter-active,
+.toast-leave-active {
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+}
+.toast-enter-from,
+.toast-leave-to {
+  opacity: 0;
+  transform: translateX(-50%) translateY(8px);
+}
+.toast-enter-to,
+.toast-leave-from {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ════════════════════════════════════════════════════════════
+   DASHBOARD / HOME
+════════════════════════════════════════════════════════════ */
+
+/* Kanban card hover lift */
+.kanban-card {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.kanban-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Command input glow on focus */
+.cmd-input-wrapper:focus-within {
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.5),
+    0 0 20px rgba(99, 102, 241, 0.1);
+}
+
+/* Status bar monospace */
+.status-bar {
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+}
+
+/* ════════════════════════════════════════════════════════════
+   SETTINGS
+════════════════════════════════════════════════════════════ */
+
+/* Input focus glow */
+.settings-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.35);
+}
+
+/* Card border hover */
+.settings-card {
+  transition: border-color 0.15s ease;
+}
+.settings-card:hover {
+  border-color: #30363d;
+}
+
+/* PAT placeholder letter spacing */
+.pat-input::placeholder {
+  letter-spacing: 0.15em;
+}
+
+/* Avatar double ring */
+.avatar-ring {
+  box-shadow:
+    0 0 0 3px #1e2530,
+    0 0 0 5px #6366f1;
+}
+
+/* Save button gradient shine */
+.btn-save {
+  background: linear-gradient(90deg, #6366f1, #818cf8, #6366f1);
+  background-size: 200% auto;
+  transition:
+    background-position 0.4s ease,
+    box-shadow 0.2s;
+}
+.btn-save:hover {
+  background-position: right center;
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.45);
+}
+
+/* Icon CSS filters */
+.icon-indigo {
+  filter: invert(60%) sepia(50%) saturate(400%) hue-rotate(210deg)
+    brightness(120%);
+  opacity: 0.85;
+}
+.icon-indigo-soft {
+  filter: invert(75%) sepia(40%) saturate(300%) hue-rotate(210deg)
+    brightness(120%);
+  opacity: 0.75;
+}
+
+/* ════════════════════════════════════════════════════════════
+   LAYOUT UTILS
+════════════════════════════════════════════════════════════ */
+
+/* iOS safe area bottom nav */
+.bottom-nav {
+  padding-bottom: env(safe-area-inset-bottom);
+}
