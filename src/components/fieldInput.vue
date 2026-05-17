@@ -3,8 +3,12 @@
         <label :for="name" class="uppercase text-[0.78rem] text-secondary tracking-[0.06em]">{{ label }}</label>
         <div class="field-wrapper relative flex items-center">
             <span class="field-icon absolute left-3 flex items-center cursor-none">
-                <userIcon v-if="type === 'text'" />
-                <lockIcon v-else />
+                <userIcon v-if="name === 'username'" />
+                <lockIcon v-else-if="name === 'password'" />
+                <aticon v-else-if="name === 'mail'" />
+                <confirmIcon v-else-if="name === 'confirm'" />
+                <fullnameIcon v-else-if="name === 'fullname'" />
+
             </span>
             <input :type="isOpen ? 'text' : type" class="field-input" ref="inputRef" :name="name"
                 :placeholder="placeholder">
@@ -23,6 +27,9 @@ import userIcon from "../assets/user.svg";
 import eyeClose from "../assets/eye-close.svg";
 import eyeOpen from "../assets/eye-open.svg";
 import lockIcon from "../assets/lock.svg";
+import atIcon from "../assets/at.svg";
+import confirmIcon from "../assets/confirm.svg";
+import fullnameIcon from "../assets/fullname.svg";
 
 const isOpen = ref(false);
 const inputRef = ref(null);

@@ -31,14 +31,13 @@
 
                 <button type="submit" class="btn-login">
                     <span>Sign In</span>
-                    <span></span>
                 </button>
             </form>
             <p class="text-secondary text-center mt-3 font-mono">
                 Don't have an account?
-                <a href="#" class="text-accent">
+                <routerLink to="/register" class="text-accent">
                     Sign Up
-                </a>
+                </routerLink>
             </p>
         </div>
         <!--Login Card End-->
@@ -64,42 +63,4 @@ function focusNextInput(nextComponent) {
 
 </script>
 
-<style scoped>
-@import "../style.css";
-
-.checkContainer {
-    @apply text-muted font-mono relative cursor-pointer select-none pl-6;
-}
-
-.checkMark {
-    @apply absolute top-[50%] translate-y-[-50%] left-0 h-5 w-5 bg-input transition-[smooth] rounded-sm;
-}
-
-.checkContainer:hover input~.checkMark {
-    @apply border-accent border-solid border;
-}
-
-.checkContainer input:checked~.checkMark {
-    @apply bg-accent;
-}
-
-/* .checkMark::after {
-    content: '';
-    @apply absolute left-0 top-0 w-full h-full;
-    display: none;
-    background: url('../assets/check.svg');
-    background-size: cover;
-    background-position: center;
-} */
-
-.checkContainer input:checked~.checkMark::after {
-    content: '';
-    @apply absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%];
-    display: block;
-    width: 9px;
-    height: 5px;
-    border-left: 2px solid #fff;
-    border-bottom: 2px solid #fff;
-    transform: rotate(-45deg) translateY(-1px);
-}
-</style>
+<style scoped></style>
