@@ -1,6 +1,5 @@
 <template>
-    <div
-        :class="`kanban-card fade-in-up delay-${delayClass} bg-[#161b22] border border-[#1e2530] rounded-xl p-4`">
+    <div :class="`kanban-card fade-in-up delay-${delayClass} bg-card border border-[#1e2530] rounded-xl p-4`">
 
         <!-- Title + check -->
         <div class="flex items-start justify-between mb-3">
@@ -9,8 +8,8 @@
             </span>
             <div
                 class="shrink-0 w-6 h-6 rounded-full border-2 border-emerald-500 flex items-center justify-center mt-0.5">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399"
-                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="20 6 9 17 4 12" />
                 </svg>
             </div>

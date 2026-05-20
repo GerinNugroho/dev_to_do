@@ -1,5 +1,5 @@
 <template>
-    <div class="kanban-card fade-in-up delay-1 bg-[#161b22] border border-[#1e2530] rounded-xl overflow-hidden">
+    <div class="kanban-card fade-in-up delay-1 bg-card border border-[#1e2530] rounded-xl overflow-hidden">
 
         <!-- Header -->
         <div class="p-4 pb-3">
@@ -37,18 +37,18 @@
                     d="M0,90 C30,80 50,60 70,55 C90,50 110,70 130,65 C150,60 170,30 200,25 C220,20 250,35 280,30"
                     fill="none" stroke="url(#lineGrad)" stroke-width="2" />
                 <g opacity="0.5">
-                    <rect x="10"  y="80" width="12" height="45"  rx="2" fill="#6366f1" opacity="0.6" />
-                    <rect x="30"  y="65" width="12" height="60"  rx="2" fill="#6366f1" opacity="0.7" />
-                    <rect x="50"  y="55" width="12" height="70"  rx="2" fill="#34d399" opacity="0.6" />
-                    <rect x="70"  y="70" width="12" height="55"  rx="2" fill="#6366f1" opacity="0.6" />
-                    <rect x="90"  y="60" width="12" height="65"  rx="2" fill="#6366f1" opacity="0.7" />
-                    <rect x="110" y="45" width="12" height="80"  rx="2" fill="#34d399" opacity="0.7" />
-                    <rect x="130" y="55" width="12" height="70"  rx="2" fill="#6366f1" opacity="0.6" />
-                    <rect x="150" y="35" width="12" height="90"  rx="2" fill="#34d399" opacity="0.8" />
+                    <rect x="10" y="80" width="12" height="45" rx="2" fill="#6366f1" opacity="0.6" />
+                    <rect x="30" y="65" width="12" height="60" rx="2" fill="#6366f1" opacity="0.7" />
+                    <rect x="50" y="55" width="12" height="70" rx="2" fill="#34d399" opacity="0.6" />
+                    <rect x="70" y="70" width="12" height="55" rx="2" fill="#6366f1" opacity="0.6" />
+                    <rect x="90" y="60" width="12" height="65" rx="2" fill="#6366f1" opacity="0.7" />
+                    <rect x="110" y="45" width="12" height="80" rx="2" fill="#34d399" opacity="0.7" />
+                    <rect x="130" y="55" width="12" height="70" rx="2" fill="#6366f1" opacity="0.6" />
+                    <rect x="150" y="35" width="12" height="90" rx="2" fill="#34d399" opacity="0.8" />
                     <rect x="170" y="25" width="12" height="100" rx="2" fill="#34d399" opacity="0.9" />
-                    <rect x="190" y="40" width="12" height="85"  rx="2" fill="#6366f1" opacity="0.7" />
-                    <rect x="210" y="30" width="12" height="95"  rx="2" fill="#34d399" opacity="0.8" />
-                    <rect x="230" y="45" width="12" height="80"  rx="2" fill="#6366f1" opacity="0.6" />
+                    <rect x="190" y="40" width="12" height="85" rx="2" fill="#6366f1" opacity="0.7" />
+                    <rect x="210" y="30" width="12" height="95" rx="2" fill="#34d399" opacity="0.8" />
+                    <rect x="230" y="45" width="12" height="80" rx="2" fill="#6366f1" opacity="0.6" />
                     <rect x="250" y="20" width="12" height="105" rx="2" fill="#34d399" opacity="0.9" />
                 </g>
             </svg>

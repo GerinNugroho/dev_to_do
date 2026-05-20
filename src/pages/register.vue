@@ -18,12 +18,12 @@
             </div>
             <!--Sign Up form field -->
             <form action="#" class="flex flex-col gap-4 animate-[fadeUp_0.5s_0.10s_both]">
-                <fieldInput ref="inputFullname" name="fullname" label="fullname" type="text" placeholder="Your Name"
+                <FieldInput ref="inputFullname" name="fullname" label="fullname" type="text" placeholder="Your Name"
                     @keydown.enter="focusNextInput(inputUsername)" />
-                <fieldInput ref="inputUsername" name="username" label="username" type="text" placeholder="Your Username"
+                <FieldInput ref="inputUsername" name="username" label="username" type="text" placeholder="Your Username"
                     @keydown.enter="focusNextInput(inputPassword)" />
                 <div>
-                    <fieldInput ref="inputPassword" name="password" label="password" type="password"
+                    <FieldInput ref="inputPassword" name="password" label="password" type="password"
                         placeholder="Create Password" @keydown.enter="focusNextInput(inputConfirm)" />
                     <div class="strength-bar">
                         <div class="strength-track">
@@ -32,7 +32,7 @@
                         <span class="strength-label">Weak</span>
                     </div>
                 </div>
-                <fieldInput ref="inputConfirm" name="confirm" label="Confirm Password" type="password"
+                <FieldInput ref="inputConfirm" name="confirm" label="Confirm Password" type="password"
                     placeholder="Confirm Password" />
 
                 <!-- Checkbox agreement -->
@@ -62,7 +62,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import fieldInput from '../components/fieldInput.vue';
+import FieldInput from '../components/fieldInput.vue';
 
 const inputFullname = ref(null);
 const inputUsername = ref(null);

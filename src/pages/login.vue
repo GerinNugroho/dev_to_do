@@ -17,10 +17,10 @@
                 <span class="flex-1 h-px bg-border"></span>
             </div>
             <!--Form Login Card -->
-            <form action="#" class="flex flex-col gap-4 animate-[fadeUp_0.5s_0.10s_both]">
-                <fieldInput ref="inputUsername" name="username" label="username" type="text" placeholder="Your Username"
+            <form @submit.prevent="handleLogin" class="flex flex-col gap-4 animate-[fadeUp_0.5s_0.10s_both]">
+                <FieldInput ref="inputUsername" name="username" label="username" type="text" placeholder="Your Username"
                     @keydown.enter="focusNextInput(inputPassword)" />
-                <fieldInput ref="inputPassword" name="password" label="password" type="password"
+                <FieldInput ref="inputPassword" name="password" label="password" type="password"
                     placeholder="●●●●●●●●" />
 
                 <label class="checkContainer">
@@ -45,8 +45,11 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
-import fieldInput from '../components/fieldInput.vue';
+import FieldInput from '../components/fieldInput.vue';
+
+const router = useRouter();
 
 const inputUsername = ref(null);
 const inputPassword = ref(null);
@@ -58,6 +61,14 @@ onMounted(() => {
 function focusNextInput(nextComponent) {
     if (nextComponent) {
         nextComponent.focus();
+    }
+}
+
+async function handleLogin() {
+    try {
+        router.push("/dashboard");
+    } catch (error) {
+        //coming soon :)
     }
 }
 

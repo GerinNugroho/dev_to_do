@@ -53,10 +53,10 @@
 </template>
 
 <script>
-import saveIcon from '../assets/save.svg'
-import ProfileCard from '../components/ProfileCard.vue'
-import GithubSection from '../components/GithubSection.vue'
-import AiSection from '../components/AiSection.vue'
+import saveIcon from '../assets/save.svg?url'
+import ProfileCard from '../components/Profilecard.vue'
+import GithubSection from '../components/Githubsection.vue'
+import AiSection from '../components/Aisection.vue'
 
 const DEFAULT_PAT = 'ghp_exampletoken123456789'
 const DEFAULT_REPO = 'https://github.com/rivera-dev'

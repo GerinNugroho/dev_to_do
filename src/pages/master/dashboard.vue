@@ -29,14 +29,14 @@
             <nav class="flex-1 px-3 py-4 space-y-1">
                 <!-- Dashboard Button -->
                 <router-link to="/dashboard/home" @click="closeSidebar"
-                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-[#161b22] transition-colors no-underline"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-card transition-colors no-underline"
                     active-class="!bg-[#161b22] !text-white">
                     <img :src="homeIcon" class="opacity-60 shrink-0" width="16" height="16" alt="" />
                     Dashboard
                 </router-link>
                 <!-- Analytics Button -->
                 <router-link to="/dashboard/analytics" @click="closeSidebar"
-                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-[#161b22] transition-colors no-underline"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-card transition-colors no-underline"
                     active-class="!bg-[#161b22] !text-white">
                     <img :src="analyticsIcon" class="opacity-60 shrink-0 invert brightness-0" width="16" height="16"
                         alt="" />
@@ -44,7 +44,7 @@
                 </router-link>
                 <!-- Setting Button -->
                 <router-link to="/dashboard/settings" @click="closeSidebar"
-                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-[#161b22] transition-colors no-underline"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-card transition-colors no-underline"
                     active-class="!bg-[#161b22] !text-white">
                     <img :src="settingIcon" class="opacity-60 shrink-0" width="16" height="16" alt="" />
                     Settings
@@ -52,7 +52,7 @@
             </nav>
             <!-- Logout Button -->
             <div class="px-3 py-4 border-t border-[#1e2530]">
-                <button @click="handleLogout"
+                <button @click="handleLogOut"
                     class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-red-400 hover:bg-red-900/10 transition-colors bg-transparent border-0 cursor-pointer"
                     style="font-family: inherit;">
                     <img :src="logoutIcon" class="opacity-60 shrink-0" width="16" height="16" alt="" />
@@ -92,26 +92,33 @@
     </div>
 </template>
 
-<script>
-import homeIcon from "../../assets/house.svg"
-import analyticsIcon from '../../assets/analytic.svg'
-import settingIcon from '../../assets/gear.svg'
-import logoutIcon from '../../assets/logout.svg'
-import burgerbuttonIcon from '../../assets/list.svg'
-export default {
-    name: 'DashboardLayout',
-    data() {
-        return { homeIcon, analyticsIcon, settingIcon, logoutIcon, burgerbuttonIcon, sidebarOpen: false }
-    },
-    methods: {
-        toggleSidebar() {
-            this.sidebarOpen = !this.sidebarOpen
-        },
-        closeSidebar() {
-            this.sidebarOpen = false
-        }
-    }
+<script setup>
+import { ref } from "vue"
+import { useRouter } from "vue-router"
 
+import homeIcon from "../../assets/house.svg?url"
+import analyticsIcon from '../../assets/analytic.svg?url'
+import settingIcon from '../../assets/gear.svg?url'
+import logoutIcon from '../../assets/logout.svg?url'
+import burgerbuttonIcon from '../../assets/list.svg?url'
+
+const sidebarOpen = ref(false);
+const router = useRouter();
+
+function toggleSidebar() {
+    sidebarOpen.value = !sidebarOpen.value;
+};
+
+function closeSidebar() {
+    sidebarOpen.value = false;
+};
+
+async function handleLogOut() {
+    try {
+        router.push("/");
+    } catch (error) {
+
+    }
 };
 </script>
 

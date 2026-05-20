@@ -3,7 +3,7 @@
         style="font-family: 'JetBrains Mono', 'Fira Code', monospace;">
 
         <!-- ── Command Input ── -->
-        <div class="cmd-input-wrapper rounded-xl border border-[#1e2530] bg-[#161b22] p-3 md:p-4 transition-all">
+        <div class="cmd-input-wrapper rounded-xl border border-[#1e2530] bg-card p-3 md:p-4 transition-all">
             <div class="flex items-center gap-2 md:gap-3">
                 <img :src="taskIcon" class="shrink-0" width="16" height="16" alt=""
                     style="filter: invert(52%) sepia(79%) saturate(500%) hue-rotate(210deg) brightness(105%);" />
@@ -92,7 +92,7 @@
         <div class="md:hidden">
 
             <!-- Tab bar -->
-            <div class="flex gap-1 p-1 bg-[#161b22] rounded-xl border border-[#1e2530] mb-4">
+            <div class="flex gap-1 p-1 bg-card rounded-xl border border-[#1e2530] mb-4">
                 <button v-for="tab in tabs" :key="tab.key" @click="activeTab = tab.key" :class="[
                     'flex-1 py-2 px-1 rounded-lg text-[10px] font-bold tracking-wide transition-all',
                     activeTab === tab.key
@@ -184,7 +184,7 @@
 </template>
 
 <script>
-import taskIcon from '../assets/scroll.svg'
+import taskIcon from '../assets/scroll.svg?url'
 import KanbanCard from '../components/KanbanCard.vue'
 import BacklogCard from '../components/BacklogCard.vue'
 import CompletedCard from '../components/CompletedCard.vue'
