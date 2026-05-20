@@ -49,14 +49,8 @@
                     </span>
                 </div>
                 <div class="space-y-3">
-                    <KanbanCard
-                        v-for="(card, i) in inProgressCards"
-                        :key="card.id"
-                        :card="card"
-                        :delay-class="Math.min(i + 1, 4)"
-                        @remove="removeCard"
-                        @toggle="toggleCard"
-                    />
+                    <KanbanCard v-for="(card, i) in inProgressCards" :key="card.id" :card="card"
+                        :delay-class="Math.min(i + 1, 4)" @remove="removeCard" @toggle="toggleCard" />
                 </div>
             </div>
 
@@ -86,12 +80,8 @@
                     </span>
                 </div>
                 <div class="space-y-3">
-                    <CompletedCard
-                        v-for="(card, i) in completedCards"
-                        :key="card.id"
-                        :card="card"
-                        :delay-class="Math.min(i + 1, 4)"
-                    />
+                    <CompletedCard v-for="(card, i) in completedCards" :key="card.id" :card="card"
+                        :delay-class="Math.min(i + 1, 4)" />
                 </div>
             </div>
         </div>
@@ -103,17 +93,12 @@
 
             <!-- Tab bar -->
             <div class="flex gap-1 p-1 bg-[#161b22] rounded-xl border border-[#1e2530] mb-4">
-                <button
-                    v-for="tab in tabs"
-                    :key="tab.key"
-                    @click="activeTab = tab.key"
-                    :class="[
-                        'flex-1 py-2 px-1 rounded-lg text-[10px] font-bold tracking-wide transition-all',
-                        activeTab === tab.key
-                            ? `bg-[#0d1117] border border-[#30363d] ${tab.activeColor}`
-                            : 'text-gray-500'
-                    ]"
-                >
+                <button v-for="tab in tabs" :key="tab.key" @click="activeTab = tab.key" :class="[
+                    'flex-1 py-2 px-1 rounded-lg text-[10px] font-bold tracking-wide transition-all',
+                    activeTab === tab.key
+                        ? `bg-[#0d1117] border border-[#30363d] ${tab.activeColor}`
+                        : 'text-gray-500'
+                ]">
                     <span class="flex items-center justify-center gap-1">
                         <span :class="`w-1.5 h-1.5 rounded-full shrink-0 ${tab.dot}`"></span>
                         {{ tab.label }}
@@ -132,14 +117,8 @@
                         {{ String(inProgressCards.length).padStart(2, '0') }}
                     </span>
                 </div>
-                <KanbanCard
-                    v-for="(card, i) in inProgressCards"
-                    :key="card.id"
-                    :card="card"
-                    :delay-class="Math.min(i + 1, 4)"
-                    @remove="removeCard"
-                    @toggle="toggleCard"
-                />
+                <KanbanCard v-for="(card, i) in inProgressCards" :key="card.id" :card="card"
+                    :delay-class="Math.min(i + 1, 4)" @remove="removeCard" @toggle="toggleCard" />
             </div>
 
             <!-- Panel: Backlog -->
@@ -165,12 +144,8 @@
                         {{ String(completedCards.length).padStart(2, '0') }}
                     </span>
                 </div>
-                <CompletedCard
-                    v-for="(card, i) in completedCards"
-                    :key="card.id"
-                    :card="card"
-                    :delay-class="Math.min(i + 1, 4)"
-                />
+                <CompletedCard v-for="(card, i) in completedCards" :key="card.id" :card="card"
+                    :delay-class="Math.min(i + 1, 4)" />
             </div>
 
         </div>
@@ -183,8 +158,8 @@
         <div class="hidden md:flex status-bar items-center justify-between pt-2 border-t border-[#1e2530]">
             <div class="flex items-center gap-4 text-[11px] text-gray-600">
                 <span class="flex items-center gap-1.5">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="4" />
                         <line x1="1.05" y1="12" x2="7" y2="12" />
                         <line x1="17.01" y1="12" x2="22.96" y2="12" />
@@ -209,9 +184,9 @@
 </template>
 
 <script>
-import taskIcon      from '../assets/scroll.svg'
-import KanbanCard    from '../components/KanbanCard.vue'
-import BacklogCard   from '../components/BacklogCard.vue'
+import taskIcon from '../assets/scroll.svg'
+import KanbanCard from '../components/KanbanCard.vue'
+import BacklogCard from '../components/BacklogCard.vue'
 import CompletedCard from '../components/CompletedCard.vue'
 
 let _idCounter = 100
@@ -225,17 +200,17 @@ export default {
             taskIcon,
 
             // Command input
-            cmdValue:       '',
+            cmdValue: '',
             parsedPriority: '',
-            parsedTag:      '',
-            parsedMsg:      '',
+            parsedTag: '',
+            parsedMsg: '',
 
             // Mobile active tab
             activeTab: 'inprogress',
             tabs: [
-                { key: 'inprogress', label: 'IN PROGRESS', dot: 'bg-yellow-400',  activeColor: 'text-yellow-400'  },
-                { key: 'backlog',    label: 'BACKLOG',      dot: 'bg-gray-500',    activeColor: 'text-indigo-400'  },
-                { key: 'completed',  label: 'DONE',         dot: 'bg-emerald-400', activeColor: 'text-emerald-400' },
+                { key: 'inprogress', label: 'IN PROGRESS', dot: 'bg-yellow-400', activeColor: 'text-yellow-400' },
+                { key: 'backlog', label: 'BACKLOG', dot: 'bg-gray-500', activeColor: 'text-indigo-400' },
+                { key: 'completed', label: 'DONE', dot: 'bg-emerald-400', activeColor: 'text-emerald-400' },
             ],
 
             // In Progress cards
@@ -276,15 +251,15 @@ export default {
             const val = this.cmdValue.trim()
             if (!val) {
                 this.parsedPriority = ''
-                this.parsedTag      = ''
-                this.parsedMsg      = ''
+                this.parsedTag = ''
+                this.parsedMsg = ''
                 return
             }
             const pm = val.match(/!(\w+)/)
             const tm = val.match(/#(\w[\w-]*)/)
             this.parsedPriority = pm ? '!' + pm[1].toLowerCase() : ''
-            this.parsedTag      = tm ? '#' + tm[1].toLowerCase() : ''
-            this.parsedMsg      = tm
+            this.parsedTag = tm ? '#' + tm[1].toLowerCase() : ''
+            this.parsedMsg = tm
                 ? `"Adding with ${pm ? pm[1].toLowerCase() + ' priority and ' : ''}${tm[1]} tag..."`
                 : '"Type !priority and #tag to categorize..."'
         },
@@ -294,34 +269,34 @@ export default {
             const val = this.cmdValue.trim()
             if (!val) return
 
-            const pm    = val.match(/!(\w+)/)
-            const tm    = val.match(/#(\w[\w-]*)/)
+            const pm = val.match(/!(\w+)/)
+            const tm = val.match(/#(\w[\w-]*)/)
             const title = val
                 .replace(/!(\w+)/g, '').replace(/#(\w[\w-]*)/g, '')
                 .replace(/@(\w+)/g, '').replace(/due\s+\w+/gi, '').trim() || 'New Task'
 
             const priorityMap = {
                 HIGH: 'bg-red-900/40 text-red-400 border-red-800/40',
-                MED:  'bg-orange-900/40 text-orange-400 border-orange-800/40',
-                LOW:  'bg-blue-900/30 text-blue-400 border-blue-800/30',
+                MED: 'bg-orange-900/40 text-orange-400 border-orange-800/40',
+                LOW: 'bg-blue-900/30 text-blue-400 border-blue-800/30',
             }
             const priority = pm ? pm[1].toUpperCase() : null
 
             this.inProgressCards.unshift({
-                id:            ++_idCounter,
+                id: ++_idCounter,
                 title,
                 priority,
                 priorityColor: priority ? (priorityMap[priority] ?? 'bg-gray-700 text-gray-300 border-gray-600') : '',
-                tag:           tm ? tm[1].toLowerCase() : null,
-                active:        false,
-                meta:          'just now',
-                type:          'toggle',
+                tag: tm ? tm[1].toLowerCase() : null,
+                active: false,
+                meta: 'just now',
+                type: 'toggle',
             })
 
-            this.cmdValue       = ''
+            this.cmdValue = ''
             this.parsedPriority = ''
-            this.parsedTag      = ''
-            this.parsedMsg      = ''
+            this.parsedTag = ''
+            this.parsedMsg = ''
         },
 
         // Toggle active state kartu
