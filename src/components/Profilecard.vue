@@ -8,7 +8,7 @@
                     <div class="avatar-ring w-16 h-16 md:w-18 md:h-18 rounded-2xl overflow-hidden bg-[#0d1117]">
                         <div
                             class="w-full h-full bg-linear-to-br from-indigo-600 to-purple-700 flex items-center justify-center">
-                            <span class="text-white text-xl font-bold select-none">AR</span>
+                            <span class="text-white text-xl font-bold select-none">LO</span>
                         </div>
                     </div>
                     <span

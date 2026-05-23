@@ -8,14 +8,8 @@
             <div class="px-5 py-5 border-b border-[#1e2530]">
                 <div class="flex items-center gap-3">
                     <div
-                        class="w-9 h-9 rounded-xl bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-900/40">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                            <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                            <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                            <path d="M14 17.5h7M17.5 14v7" />
-                        </svg>
+                        class="w-9 h-9 font-bold rounded-xl bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-900/40">
+                        LO
                     </div>
                     <div>
                         <div class="text-sm font-bold text-white tracking-tight">

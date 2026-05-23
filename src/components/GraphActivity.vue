@@ -7,8 +7,8 @@
                 </span>
                 <h3 class="m-0 font-normal">Graph Activity</h3>
             </div>
-            <div class="text-xs font-mono">
-                200 Kontribusi Pada 2026
+            <div class="text-xs font-mono hidden md:block">
+                1 Kontribusi Pada 2026
             </div>
         </div>
 
@@ -48,11 +48,11 @@
         <div class="flex justify-end items-center gap-1.5 mt-4 text-xs">
             <span class="text-[11px]">Lebih sedikit</span>
             <div class="flex gap-0.75">
-                <div class="w-2.75 h-2.75 rounded-xs bg-[#012b15]"></div>
-                <div class="w-2.75 h-2.75 rounded-xs bg-[#0e4429]"></div>
-                <div class="w-2.75 h-2.75 rounded-xs bg-[#006d32]"></div>
-                <div class="w-2.75 h-2.75 rounded-xs bg-[#26a641]"></div>
-                <div class="w-2.75 h-2.75 rounded-xs bg-[#39d353]"></div>
+                <div class="w-2.75 h-2.75 rounded-xs bg-[#222538]"></div>
+                <div class="w-2.75 h-2.75 rounded-xs bg-[#343a6b]"></div>
+                <div class="w-2.75 h-2.75 rounded-xs bg-[#4c53b3]"></div>
+                <div class="w-2.75 h-2.75 rounded-xs bg-[#646ccf]"></div>
+                <div class="w-2.75 h-2.75 rounded-xs bg-[#7c84ff]"></div>
             </div>
             <span class="text-[11px]">Lebih banyak</span>
         </div>
@@ -72,19 +72,15 @@ const props = defineProps({
 });
 
 const levelClasses = {
-    0: 'bg-[#012b15]',
-    1: 'bg-[#0e4429]',
-    2: 'bg-[#006d32]',
-    3: 'bg-[#26a641]',
-    4: 'bg-[#39d353]'
+    0: 'bg-[#222538]',
+    1: 'bg-[#343a6b]',
+    2: 'bg-[#4c53b3]',
+    3: 'bg-[#646ccf]',
+    4: 'bg-[#7c84ff]'
 };
 
 const contributionData = ref({
-    "2024-01-01": 5,
-    "2024-02-12": 12,
-    "2024-05-15": 22,
-    "2024-08-22": 2,
-    "2024-12-25": 15,
+    "2026-01-01": 1,
 });
 
 const totalContributions = computed(() => {

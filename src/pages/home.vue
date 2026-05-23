@@ -36,6 +36,22 @@
         ══════════════════════════════ -->
         <div class="hidden md:grid grid-cols-3 gap-4">
 
+            <!-- Branches -->
+            <div>
+                <div class="flex items-center justify-between mb-3 px-1">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-gray-500"></span>
+                        <span class="text-[11px] font-bold tracking-widest text-gray-400 uppercase">Branches</span>
+                    </div>
+                    <span class="text-[11px] font-mono text-gray-600">12</span>
+                </div>
+                <div class="space-y-3">
+                    <BranchesCard :title="'main'" :status="false" :priority="3" :hashtag="'mergeBranch'" />
+                    <BranchesCard :title="'home-branch'" :status="true" :priority="2" :hashtag="'homePage'" />
+                </div>
+            </div>
+
+
             <!-- IN PROGRESS -->
             <div>
                 <div class="flex items-center justify-between mb-3 px-1">
@@ -52,21 +68,6 @@
                         :delay-class="Math.min(i + 1, 4)" @remove="removeCard" @toggle="toggleCard" />
                 </div>
             </div>
-
-            <!-- BACKLOG -->
-            <div>
-                <div class="flex items-center justify-between mb-3 px-1">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-gray-500"></span>
-                        <span class="text-[11px] font-bold tracking-widest text-gray-400 uppercase">Projects</span>
-                    </div>
-                    <span class="text-[11px] font-mono text-gray-600">12</span>
-                </div>
-                <div class="space-y-3">
-                    <ProjectsCard />
-                </div>
-            </div>
-
             <!-- COMPLETED -->
             <div>
                 <div class="flex items-center justify-between mb-3 px-1">
@@ -105,6 +106,19 @@
                 </button>
             </div>
 
+            <!-- Panel: Branches -->
+            <div v-if="activeTab === 'branches'" class="space-y-3">
+                <div class="flex items-center justify-between mb-3 px-1">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-gray-500"></span>
+                        <span class="text-[11px] font-bold tracking-widest text-gray-400 uppercase">Branches</span>
+                    </div>
+                    <span class="text-[11px] font-mono text-gray-600">12</span>
+                </div>
+                <BranchesCard :title="'main'" :status="false" :priority="3" :hashtag="'mergeBranch'" />
+                <BranchesCard :title="'home-branch'" :status="true" :priority="2" :hashtag="'homePage'" />
+            </div>
+
             <!-- Panel: In Progress -->
             <div v-if="activeTab === 'inprogress'" class="space-y-3">
                 <div class="flex items-center justify-between mb-3 px-1">
@@ -118,18 +132,6 @@
                 </div>
                 <KanbanCard v-for="(card, i) in inProgressCards" :key="card.id" :card="card"
                     :delay-class="Math.min(i + 1, 4)" @remove="removeCard" @toggle="toggleCard" />
-            </div>
-
-            <!-- Panel: Backlog -->
-            <div v-if="activeTab === 'backlog'" class="space-y-3">
-                <div class="flex items-center justify-between mb-3 px-1">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-gray-500"></span>
-                        <span class="text-[11px] font-bold tracking-widest text-gray-400 uppercase">Projects</span>
-                    </div>
-                    <span class="text-[11px] font-mono text-gray-600">12</span>
-                </div>
-                <ProjectsCard />
             </div>
 
             <!-- Panel: Completed -->
@@ -185,14 +187,14 @@
 <script>
 import taskIcon from '../assets/scroll.svg?url'
 import KanbanCard from '../components/KanbanCard.vue'
-import ProjectsCard from '../components/ProjectsCard.vue'
+import BranchesCard from '../components/BranchesCard.vue'
 import CompletedCard from '../components/CompletedCard.vue'
 
 let _idCounter = 100
 
 export default {
     name: 'HomePage',
-    components: { KanbanCard, ProjectsCard, CompletedCard },
+    components: { KanbanCard, BranchesCard, CompletedCard },
 
     data() {
         return {
@@ -205,10 +207,10 @@ export default {
             parsedMsg: '',
 
             // Mobile active tab
-            activeTab: 'inprogress',
+            activeTab: 'branches',
             tabs: [
+                { key: 'branches', label: 'BRANCHES', dot: 'bg-gray-500', activeColor: 'text-indigo-400' },
                 { key: 'inprogress', label: 'IN PROGRESS', dot: 'bg-yellow-400', activeColor: 'text-yellow-400' },
-                { key: 'backlog', label: 'BACKLOG', dot: 'bg-gray-500', activeColor: 'text-indigo-400' },
                 { key: 'completed', label: 'DONE', dot: 'bg-emerald-400', activeColor: 'text-emerald-400' },
             ],
 
@@ -216,17 +218,18 @@ export default {
             inProgressCards: [
                 {
                     id: 1,
-                    title: 'Refactor Auth Middleware',
+                    title: 'Home Mobile Version',
                     priority: 'HIGH',
                     priorityColor: 'bg-red-900/40 text-red-400 border-red-800/40',
                     tag: 'core-api',
                     active: true,
                     meta: '2h ago',
-                    type: 'toggle',
+                    type: 'pr',
+                    pr: 'PR-420'
                 },
                 {
                     id: 2,
-                    title: 'Optimize SQL Queries',
+                    title: 'Reactivity Homepage',
                     priority: 'MED',
                     priorityColor: 'bg-orange-900/40 text-orange-400 border-orange-800/40',
                     tag: 'db-perf',
@@ -239,7 +242,7 @@ export default {
 
             // Completed cards
             completedCards: [
-                { id: 10, title: 'Implement Webhooks', meta: 'Completed yesterday' },
+                { id: 10, title: 'Home Desktop Version', meta: 'Completed yesterday' },
             ],
         }
     },
@@ -299,10 +302,10 @@ export default {
         },
 
         // Toggle active state kartu
-        toggleCard(id) {
-            const card = this.inProgressCards.find(c => c.id === id)
-            if (card) card.active = !card.active
-        },
+        // toggleCard(id) {
+        //     const card = this.inProgressCards.find(c => c.id === id)
+        //     if (card) card.active = !card.active
+        // },
 
         // Hapus kartu dari In Progress
         removeCard(id) {

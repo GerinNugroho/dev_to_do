@@ -29,7 +29,7 @@
         <!-- Footer -->
         <div class="flex items-center justify-between">
             <!-- Toggle -->
-            <label v-if="card.type === 'toggle'" class="relative inline-flex items-center cursor-pointer">
+            <!-- <label v-if="card.type === 'toggle'" class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" class="sr-only peer" :checked="card.active" @change="$emit('toggle', card.id)" />
                 <div
                     class="w-9 h-5 bg-[#30363d] peer-checked:bg-indigo-600 rounded-full transition-colors peer-focus:outline-none">
@@ -37,10 +37,10 @@
                         class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-4">
                     </div>
                 </div>
-            </label>
+            </label> -->
 
             <!-- PR link -->
-            <div v-else-if="card.type === 'pr'" class="flex items-center gap-1.5 text-gray-600">
+            <div class="flex items-center gap-1.5 text-gray-600">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
@@ -48,8 +48,6 @@
                 </svg>
                 <span class="text-[11px] font-mono">{{ card.pr }}</span>
             </div>
-
-            <div v-else></div>
 
             <span class="text-[11px] text-gray-600 font-mono">{{ card.meta }}</span>
         </div>
@@ -63,6 +61,6 @@ export default {
         card: { type: Object, required: true },
         delayClass: { type: Number, default: 1 },
     },
-    emits: ['remove', 'toggle'],
+    emits: ['remove'],
 }
 </script>

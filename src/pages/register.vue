@@ -81,7 +81,7 @@ function focusNextInput(nextComponent) {
 </script>
 
 <style scoped>
-@import '../style.css';
+@reference "../style.css";
 
 .inline-link {
     @apply text-accent no-underline transition-[color_var(--transition-smooth)];

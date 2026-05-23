@@ -1,13 +1,14 @@
 <template>
     <div class="px-8 py-6">
         <h1 class="mb-5 text-2xl font-bold font-mono">Activity Analytic</h1>
-        <div class="flex gap-5 items-center mb-10 fade-in-up">
+        <div class="flex flex-col md:flex-row gap-5 items-center mb-10 fade-in-up">
             <AnalyticCards :card="1" />
             <AnalyticCards :card="2" />
             <AnalyticCards :card="3" />
         </div>
-        <div class="w-full flex gap-5 fade-in-up delay-1">
-            <GraphActivity :year="currentYear" class="flex-4 min-w-0" />
+        <div class="w-full flex flex-col md:flex-row gap-5 fade-in-up delay-1">
+            <GraphActivity :year="currentYear"
+                class="flex-4 min-w-0 hover:border-border-hover transition-[border-color_var(--transition-smooth)]" />
 
             <div
                 class="w-full p-5 flex-1 flex items-center justify-center flex-col min-w-0 relative bg-card border border-border rounded-lg overflow-hidden parent">
@@ -32,18 +33,23 @@ import GraphActivity from '../components/GraphActivity.vue';
 
 import gearSolidIcon from "../assets/gear-solid.svg";
 
-const currentYear = ref(2024);
+const currentYear = ref(2026);
 
 </script>
 
 <style scoped>
-@import "../style.css";
+@reference "../style.css";
 
-.child {
+.child,
+.parent {
     transition: all var(--transition-smooth);
 }
 
+.parent:hover {
+    @apply border-border-hover;
+}
+
 .parent:hover .child {
-    @apply w-50 h-50;
+    @apply w-50 h-50
 }
 </style>

@@ -3,14 +3,23 @@
 
         <!-- Header -->
         <div class="p-4 pb-3">
-            <div class="flex items-start justify-between mb-3">
-                <span class="text-sm font-semibold text-white">Upgrade Tailwind Config</span>
+            <div class="flex items-start justify-between mb-3 text-sm font-semibold text-white">
+                {{ title }}<span v-if="status === true" class="text-green-400">(Active)</span>
             </div>
             <div class="flex items-center gap-1.5 flex-wrap">
+
+                <!-- priority MBG -->
+                <span v-if="priority === 1"
+                    class="px-2 py-0.5 text-[10px] font-bold rounded bg-red-900/40 text-red-400 border border-red-800/40">!HIGH</span>
+                <span v-else-if="priority === 2"
+                    class="px-2 py-0.5 text-[10px] font-bold rounded bg-orange-900/40 text-orange-400 border border-orange-800/40">!MED</span>
+                <span v-else-if="priority === 3"
+                    class="px-2 py-0.5 text-[10px] font-bold rounded bg-blue-900/40 text-blue-400 border border-blue-800/40">!HIGH</span>
+
+                <!-- hashtag gulingkan prabowo -->
                 <span
-                    class="px-2 py-0.5 text-[10px] font-bold rounded bg-blue-900/30 text-blue-400 border border-blue-800/30">!LOW</span>
-                <span
-                    class="px-2 py-0.5 text-[10px] font-semibold rounded bg-[#1e2530] text-indigo-400 border border-[#30363d]">#ui-refresh</span>
+                    class="px-2 py-0.5 text-[10px] font-semibold rounded bg-[#1e2530] text-indigo-400 border border-[#30363d]">#{{
+                        hashtag }}</span>
             </div>
         </div>
 
@@ -52,14 +61,10 @@
                     <rect x="250" y="20" width="12" height="105" rx="2" fill="#34d399" opacity="0.9" />
                 </g>
             </svg>
-            <div class="absolute bottom-2 left-3">
-                <div class="text-[10px] font-bold tracking-widest text-emerald-400 uppercase">Sprint Velocity</div>
-                <div class="text-[10px] text-gray-500 font-mono">+14% vs last week</div>
-            </div>
         </div>
     </div>
 </template>
 
-<script>
-export default { name: 'BacklogCard' }
+<script setup>
+defineProps(['title', 'status', 'priority', 'hashtag'])
 </script>
