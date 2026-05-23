@@ -1,6 +1,5 @@
 <template>
-    <div class="flex flex-col px-3 md:px-8 py-4 md:py-6 space-y-4 md:space-y-5"
-        style="font-family: 'JetBrains Mono', 'Fira Code', monospace;">
+    <div class="flex flex-col px-3 md:px-8 py-4 md:py-6 space-y-4 md:space-y-5 font-mono">
 
         <!-- ── Profile Card ── -->
         <ProfileCard @edit="onEditProfile" />

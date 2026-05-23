@@ -1,6 +1,5 @@
 <template>
-    <div class="flex flex-col px-3 md:px-6 py-4 md:py-5 space-y-4 md:space-y-5"
-        style="font-family: 'JetBrains Mono', 'Fira Code', monospace;">
+    <div class="flex flex-col px-3 md:px-8 py-4 md:py-6 space-y-4 md:space-y-5 font-mono">
 
         <!-- ── Command Input ── -->
         <div class="cmd-input-wrapper rounded-xl border border-[#1e2530] bg-card p-3 md:p-4 transition-all">
@@ -59,12 +58,12 @@
                 <div class="flex items-center justify-between mb-3 px-1">
                     <div class="flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-gray-500"></span>
-                        <span class="text-[11px] font-bold tracking-widest text-gray-400 uppercase">Backlog</span>
+                        <span class="text-[11px] font-bold tracking-widest text-gray-400 uppercase">Projects</span>
                     </div>
                     <span class="text-[11px] font-mono text-gray-600">12</span>
                 </div>
                 <div class="space-y-3">
-                    <BacklogCard />
+                    <ProjectsCard />
                 </div>
             </div>
 
@@ -126,11 +125,11 @@
                 <div class="flex items-center justify-between mb-3 px-1">
                     <div class="flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-gray-500"></span>
-                        <span class="text-[11px] font-bold tracking-widest text-gray-400 uppercase">Backlog</span>
+                        <span class="text-[11px] font-bold tracking-widest text-gray-400 uppercase">Projects</span>
                     </div>
                     <span class="text-[11px] font-mono text-gray-600">12</span>
                 </div>
-                <BacklogCard />
+                <ProjectsCard />
             </div>
 
             <!-- Panel: Completed -->
@@ -186,14 +185,14 @@
 <script>
 import taskIcon from '../assets/scroll.svg?url'
 import KanbanCard from '../components/KanbanCard.vue'
-import BacklogCard from '../components/BacklogCard.vue'
+import ProjectsCard from '../components/ProjectsCard.vue'
 import CompletedCard from '../components/CompletedCard.vue'
 
 let _idCounter = 100
 
 export default {
     name: 'HomePage',
-    components: { KanbanCard, BacklogCard, CompletedCard },
+    components: { KanbanCard, ProjectsCard, CompletedCard },
 
     data() {
         return {

@@ -1,16 +1,26 @@
 <template>
-    <div class="px-3 py-4">
-        <div class="flex gap-5 justify-center items-center mb-10">
-            <AnalyticCards />
-            <AnalyticCards />
-            <AnalyticCards />
-            <AnalyticCards />
+    <div class="px-8 py-6">
+        <h1 class="mb-5 text-2xl font-bold font-mono">Activity Analytic</h1>
+        <div class="flex gap-5 items-center mb-10 fade-in-up">
+            <AnalyticCards :card="1" />
+            <AnalyticCards :card="2" />
+            <AnalyticCards :card="3" />
         </div>
-        <h2 class="text-accent font-mono text-3xl font-bold mb-5">Calendar Activity</h2>
-        <div class="flex items-start gap-2">
-            <GraphActivity :year="currentYear" :month="currentMonth" :activityData="dummyData" />
-            <GraphActivity :year="currentYear" :month="5" />
-            <GraphActivity :year="currentYear" :month="6" />
+        <div class="w-full flex gap-5 fade-in-up delay-1">
+            <GraphActivity :year="currentYear" class="flex-4 min-w-0" />
+
+            <div
+                class="w-full p-5 flex-1 flex items-center justify-center flex-col min-w-0 relative bg-card border border-border rounded-lg overflow-hidden parent">
+                <span class="text-accent flex justify-center items-center p-3 mb-5 z-10">
+                    <gearSolidIcon class="w-30 h-30" />
+                </span>
+                <div class="flex flex-col items-center justify-center z-10">
+                    <p class="text-accent-hover uppercase font-bold text-sm mb-1">Focus Score</p>
+                    <p class="text-xl"><span class="text-4xl text-accent">11</span> / 100</p>
+                </div>
+                <gearSolidIcon class="absolute w-40 h-40 -right-2 -bottom-2 text-hover child" />
+                <gearSolidIcon class="absolute w-40 h-40 -left-2 -top-10 text-hover child" />
+            </div>
         </div>
     </div>
 </template>
@@ -20,17 +30,20 @@ import { ref } from 'vue';
 import AnalyticCards from '../components/AnalyticCards.vue';
 import GraphActivity from '../components/GraphActivity.vue';
 
-const currentYear = ref(2026);
-const currentMonth = ref(4);
+import gearSolidIcon from "../assets/gear-solid.svg";
 
-const dummyData = ref({
-    "2026-05-01": 1,
-    "2026-05-02": 2,
-    "2026-05-15": 4,
-    "2026-05-20": 3,
-    "2026-05-21": 2,
-    "2026-05-31": 1
-});
+const currentYear = ref(2024);
+
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+@import "../style.css";
+
+.child {
+    transition: all var(--transition-smooth);
+}
+
+.parent:hover .child {
+    @apply w-50 h-50;
+}
+</style>

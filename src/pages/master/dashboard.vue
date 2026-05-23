@@ -1,11 +1,11 @@
 <template>
-    <div class="flex flex-col md:flex-row h-dvh bg-[#0d1117] text-gray-100 overflow-hidden">
+    <div class="flex flex-col md:flex-row h-dvh bg-[#0d1117] text-gray-100 overflow-hidden font-mono">
         <aside :class="[
             'fixed inset-y-0 left-0 z-50 flex w-60 min-w-60 bg-[#0d1117] border-r border-[#1e2530] flex-col shrink-0 transition-transform duration-300 ease-in-out md:relative md:translate-x-0',
             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         ]">
             <!--Logo bossku mantap-->
-            <div class=" px-5 py-5 border-b border-[#1e2530]">
+            <div class="px-5 py-5 border-b border-[#1e2530]">
                 <div class="flex items-center gap-3">
                     <div
                         class="w-9 h-9 rounded-xl bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-900/40">
@@ -19,9 +19,9 @@
                     </div>
                     <div>
                         <div class="text-sm font-bold text-white tracking-tight">
-                            DevTodo
+                            Lao Deh
                         </div>
-                        <div class="text-[10px] text-gray-500">v1.0.4-stable</div>
+                        <div class="text-[10px] text-gray-500">Project Manager</div>
                     </div>
                 </div>
             </div>
@@ -65,7 +65,7 @@
         </div>
         <div class="flex-1 flex flex-col overflow-hidden min-w-0">
             <header
-                class="flex items-center justify-between px-4 md:px-6 py-3 md:py-3.5 border-b border-[#1e2530] bg-[#0d1117] shrink-0">
+                class="flex items-center justify-between px-4 md:px-6 py-3 md:py-5.5 border-b border-[#1e2530] bg-[#0d1117] shrink-0">
                 <!---To Do Title Right -->
                 <div class="flex items-center gap-2">
                     <button @click="toggleSidebar"
