@@ -20,30 +20,32 @@
                 </div>
             </div>
 
-            <nav class="flex-1 px-3 py-4 space-y-1">
-                <!-- Dashboard Button -->
-                <router-link to="/dashboard/home" @click="closeSidebar"
-                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-card transition-colors no-underline"
-                    active-class="!bg-[#161b22] !text-white">
-                    <img :src="homeIcon" class="opacity-60 shrink-0" width="16" height="16" alt="" />
-                    Dashboard
-                </router-link>
-                <!-- Analytics Button -->
-                <router-link to="/dashboard/analytics" @click="closeSidebar"
-                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-card transition-colors no-underline"
-                    active-class="!bg-[#161b22] !text-white">
-                    <img :src="analyticsIcon" class="opacity-60 shrink-0 invert brightness-0" width="16" height="16"
-                        alt="" />
-                    Analytics
-                </router-link>
-                <!-- Setting Button -->
-                <router-link to="/dashboard/settings" @click="closeSidebar"
-                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-card transition-colors no-underline"
-                    active-class="!bg-[#161b22] !text-white">
-                    <img :src="settingIcon" class="opacity-60 shrink-0" width="16" height="16" alt="" />
-                    Settings
-                </router-link>
-            </nav>
+            <header>
+                <nav class="flex-1 px-3 py-4 space-y-1">
+                    <!-- Dashboard Button -->
+                    <router-link to="/dashboard/home" @click="closeSidebar"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-card transition-colors no-underline"
+                        active-class="!bg-[#161b22] !text-white">
+                        <img :src="homeIcon" class="opacity-60 shrink-0" width="16" height="16" alt="" />
+                        Dashboard
+                    </router-link>
+                    <!-- Analytics Button -->
+                    <router-link to="/dashboard/analytics" @click="closeSidebar"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-card transition-colors no-underline"
+                        active-class="!bg-[#161b22] !text-white">
+                        <img :src="analyticsIcon" class="opacity-60 shrink-0 invert brightness-0" width="16" height="16"
+                            alt="" />
+                        Analytics
+                    </router-link>
+                    <!-- Setting Button -->
+                    <router-link to="/dashboard/settings" @click="closeSidebar"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-card transition-colors no-underline"
+                        active-class="!bg-[#161b22] !text-white">
+                        <img :src="settingIcon" class="opacity-60 shrink-0" width="16" height="16" alt="" />
+                        Settings
+                    </router-link>
+                </nav>
+            </header>
             <!-- Logout Button -->
             <div class="px-3 py-4 border-t border-[#1e2530]">
                 <button @click="handleLogOut"
