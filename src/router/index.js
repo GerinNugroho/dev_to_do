@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import DashboardLayout from "../pages/master/dashboard.vue";
-import AuthLayout from "../pages/master/auth.vue";
+import MasterLayout from "../pages/master/master.vue";
+import Landing from "../pages/landing.vue";
 import Login from "../pages/login.vue";
 import Register from "../pages/register.vue";
 import Home from "../pages/home.vue";
@@ -11,9 +12,9 @@ import Analytics from "../pages/analytics.vue";
 const routes = [
   {
     path: "/",
-    component: AuthLayout,
-    redirect: "/login",
+    component: MasterLayout,
     children: [
+      { path: "", name: "Landing", component: Landing },
       { path: "login", name: "Login", component: Login },
       { path: "register", name: "Register", component: Register },
     ],
