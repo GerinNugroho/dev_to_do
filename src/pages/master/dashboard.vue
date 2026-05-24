@@ -20,8 +20,8 @@
                 </div>
             </div>
 
-            <header>
-                <nav class="flex-1 px-3 py-4 space-y-1">
+            <header class="flex-1">
+                <nav class="px-3 py-4 space-y-1">
                     <!-- Dashboard Button -->
                     <router-link to="/dashboard/home" @click="closeSidebar"
                         class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-card transition-colors no-underline"
