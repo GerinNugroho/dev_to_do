@@ -19,6 +19,8 @@
             <!--Sign Up form field -->
             <form action="#" class="flex flex-col gap-4 animate-[fadeUp_0.5s_0.10s_both]">
                 <FieldInput ref="inputFullname" name="fullname" label="fullname" type="text" placeholder="Your Name"
+                    @keydown.enter="focusNextInput(inputEmail)" />
+                <FieldInput ref="inputEmail" name="mail" label="Email" type="email" placeholder="your@email.com"
                     @keydown.enter="focusNextInput(inputUsername)" />
                 <FieldInput ref="inputUsername" name="username" label="username" type="text" placeholder="Your Username"
                     @keydown.enter="focusNextInput(inputPassword)" />
@@ -65,6 +67,7 @@ import { ref, onMounted } from "vue";
 import FieldInput from '../components/fieldInput.vue';
 
 const inputFullname = ref(null);
+const inputEmail = ref(null);
 const inputUsername = ref(null);
 const inputPassword = ref(null);
 const inputConfirm = ref(null);
