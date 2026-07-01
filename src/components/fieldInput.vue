@@ -5,13 +5,13 @@
             <span class="field-icon absolute left-3 flex items-center cursor-none">
                 <userIcon v-if="name === 'username'" />
                 <lockIcon v-else-if="name === 'password'" />
-                <aticon v-else-if="name === 'mail'" />
+                <atIcon v-else-if="name === 'mail'" />
                 <confirmIcon v-else-if="name === 'confirm'" />
                 <fullnameIcon v-else-if="name === 'fullname'" />
 
             </span>
             <input :type="isOpen ? 'text' : type" class="field-input" ref="inputRef" :name="name"
-                :placeholder="placeholder">
+                :placeholder="placeholder" v-model="model">
             <button v-if="type === 'password'" type="button" @click="eyeHandler"
                 class="absolute flex items-center p-1 right-2.5 text-muted bg-none border-none rounded-sm cursor-pointer hover:text-accent">
                 <eyeOpen v-if="isOpen" />
@@ -33,6 +33,7 @@ import fullnameIcon from "../assets/fullname.svg";
 
 const isOpen = ref(false);
 const inputRef = ref(null);
+const model = defineModel();
 
 defineProps(['label', 'type', 'placeholder', 'name']);
 defineExpose({

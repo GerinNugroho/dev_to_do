@@ -18,10 +18,14 @@
             </div>
             <!--Form Login Card -->
             <form @submit.prevent="handleLogin" class="flex flex-col gap-4 animate-[fadeUp_0.5s_0.10s_both]">
-                <FieldInput ref="inputUsername" name="username" label="username" type="text" placeholder="Your Username"
+                <FieldInput v-model="usernameOrEmail" ref="inputUsername" name="username" label="Username or Email" type="text" placeholder="Username or Email"
                     @keydown.enter="focusNextInput(inputPassword)" />
-                <FieldInput ref="inputPassword" name="password" label="password" type="password"
+                <FieldInput v-model="password" ref="inputPassword" name="password" label="password" type="password"
                     placeholder="●●●●●●●●" />
+
+                <p v-if="errorMessage" class="text-error text-xs font-mono text-center">
+                    {{ errorMessage }}
+                </p>
 
                 <label class="checkContainer">
                     <input type="checkbox" class="opacity-0 w-0 h-0  absolute cursor-pointer">
@@ -51,6 +55,10 @@ import FieldInput from '../components/fieldInput.vue';
 
 const router = useRouter();
 
+const usernameOrEmail = ref('');
+const password = ref('');
+const errorMessage = ref('');
+
 const inputUsername = ref(null);
 const inputPassword = ref(null);
 
@@ -65,13 +73,35 @@ function focusNextInput(nextComponent) {
 }
 
 async function handleLogin() {
+    errorMessage.value = '';
+    const identifier = usernameOrEmail.value.trim();
+    const pass = password.value.trim();
+
+    if (!identifier) {
+        errorMessage.value = 'Please enter your username or email.';
+        return;
+    }
+
+    if (!pass) {
+        errorMessage.value = 'Please enter your password.';
+        return;
+    }
+
+    // Determine if it is a valid email or a valid username format
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
+    const isUsername = /^[a-zA-Z0-9_]{3,20}$/.test(identifier);
+
+    if (!isEmail && !isUsername) {
+        errorMessage.value = 'Please enter a valid username or email address.';
+        return;
+    }
+
     try {
         router.push("/dashboard");
     } catch (error) {
-        //coming soon :)
+        errorMessage.value = 'An error occurred during login.';
     }
 }
-
 </script>
 
 <style scoped></style>

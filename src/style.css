@@ -295,24 +295,6 @@
   animation-delay: 0.15s;
 }
 
-/* Toast transition (Vue <transition>) */
-.toast-enter-active,
-.toast-leave-active {
-  transition:
-    opacity 0.3s,
-    transform 0.3s;
-}
-.toast-enter-from,
-.toast-leave-to {
-  opacity: 0;
-  transform: translateX(-50%) translateY(8px);
-}
-.toast-enter-to,
-.toast-leave-from {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
 /* ════════════════════════════════════════════════════════════
    DASHBOARD / HOME
 ════════════════════════════════════════════════════════════ */
@@ -395,11 +377,3 @@
   opacity: 0.75;
 }
 
-/* ════════════════════════════════════════════════════════════
-   LAYOUT UTILS
-════════════════════════════════════════════════════════════ */
-
-/* iOS safe area bottom nav */
-.bottom-nav {
-  padding-bottom: env(safe-area-inset-bottom);
-}
