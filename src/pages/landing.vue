@@ -133,7 +133,7 @@
 
         <!-- Copyright -->
         <p class="text-xs text-gray-600">
-          © 2024 DevTodo. Built for the Flow State.
+          © 2026 DevTodo. Built for the Flow State.
         </p>
 
         <!-- Footer links -->
