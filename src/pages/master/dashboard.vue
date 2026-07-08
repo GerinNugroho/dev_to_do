@@ -25,8 +25,8 @@
       <!-- Nav -->
       <header class="flex-1">
         <nav class="px-3 py-4 space-y-1">
-          <router-link v-for="link in navLinks" :key="link.to" :to="link.to" @click="closeSidebar"
-            :class="navLinkClass" active-class="!bg-[#161b22] !text-white">
+          <router-link v-for="link in navLinks" :key="link.to" :to="link.to" @click="closeSidebar" :class="navLinkClass"
+            active-class="!bg-[#161b22] !text-white">
             <img :src="link.icon" class="opacity-60 shrink-0" :class="link.iconClass" width="16" height="16" alt="" />
             {{ link.label }}
           </router-link>
@@ -35,8 +35,7 @@
 
       <!-- Logout -->
       <div class="px-3 py-4 border-t border-[#1e2530]">
-        <button @click="handleLogOut"
-          class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
+        <button @click="handleLogOut" :disabled="isLoggingOut" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
                  text-gray-400 hover:text-red-400 hover:bg-red-900/10 transition-colors
                  bg-transparent border-0 cursor-pointer font-mono">
           <img :src="logoutIcon" class="opacity-60 shrink-0" width="16" height="16" alt="" />
@@ -86,6 +85,7 @@ import analyticsIcon from '../../assets/analytic.svg?url'
 import settingIcon from '../../assets/gear.svg?url'
 import logoutIcon from '../../assets/logout.svg?url'
 import burgerbuttonIcon from '../../assets/list.svg?url'
+import { useAuthStore } from '../../stores/auth'
 
 const navLinkClass = [
   'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium',
@@ -99,13 +99,24 @@ const navLinks = [
 ]
 
 const sidebarOpen = ref(false)
+const isLoggingOut = ref(false);
 const router = useRouter()
+const authStore = useAuthStore();
 
 function toggleSidebar() { sidebarOpen.value = !sidebarOpen.value }
 function closeSidebar() { sidebarOpen.value = false }
 
 async function handleLogOut() {
-  try { router.push('/') } catch {}
+  isLoggingOut.value = true;
+  try {
+    await authStore.handleLogout();
+    router.push({ name: "Login" })
+  } catch {
+    console.log("Gagal mengirim request ke server!");
+    router.push({ name: "Login" })
+  } finally {
+    isLoggingOut.value = false;
+  }
 }
 </script>
 

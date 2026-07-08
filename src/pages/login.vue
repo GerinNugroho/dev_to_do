@@ -18,8 +18,8 @@
             </div>
             <!--Form Login Card -->
             <form @submit.prevent="handleLogin" class="flex flex-col gap-4 animate-[fadeUp_0.5s_0.10s_both]">
-                <FieldInput v-model="usernameOrEmail" ref="inputUsername" name="username" label="Username or Email" type="text" placeholder="Username or Email"
-                    @keydown.enter="focusNextInput(inputPassword)" />
+                <FieldInput v-model="usernameOrEmail" ref="inputUsername" name="username" label="Username or Email"
+                    type="text" placeholder="Username or Email" @keydown.enter="focusNextInput(inputPassword)" />
                 <FieldInput v-model="password" ref="inputPassword" name="password" label="password" type="password"
                     placeholder="●●●●●●●●" />
 
@@ -33,8 +33,8 @@
                     Remember Me
                 </label>
 
-                <button type="submit" class="btn-login">
-                    <span>Sign In</span>
+                <button type="submit" :disabled="authStore.isLoading" class="btn-login">
+                    <span>{{ authStore.isLoading ? 'Signing In' : 'Sign In' }}</span>
                 </button>
             </form>
             <p class="text-secondary text-center mt-3 font-mono">
@@ -52,8 +52,10 @@
 import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 import FieldInput from '../components/fieldInput.vue';
+import { useAuthStore } from "../stores/auth.js";
 
 const router = useRouter();
+const authStore = useAuthStore();
 
 const usernameOrEmail = ref('');
 const password = ref('');
@@ -89,7 +91,7 @@ async function handleLogin() {
 
     // Determine if it is a valid email or a valid username format
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
-    const isUsername = /^[a-zA-Z0-9_]{3,20}$/.test(identifier);
+    const isUsername = /^[a-zA-Z0-9_ ]{3,20}$/.test(identifier);
 
     if (!isEmail && !isUsername) {
         errorMessage.value = 'Please enter a valid username or email address.';
@@ -97,9 +99,15 @@ async function handleLogin() {
     }
 
     try {
-        router.push("/dashboard");
+        const response = await authStore.handleLogin({ identifier, password: pass });
+
+        console.log(response);
+
+        if (response.status === "success") {
+            router.push("/dashboard");
+        }
     } catch (error) {
-        errorMessage.value = 'An error occurred during login.';
+        errorMessage.value = error || "invalid username or passsword.";
     }
 }
 </script>
