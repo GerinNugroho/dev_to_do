@@ -8,7 +8,7 @@
                 <h3 class="m-0 font-normal">Graph Activity</h3>
             </div>
             <div class="text-xs font-mono hidden md:block">
-                1 Kontribusi Pada 2026
+                {{ totalContributions }} Kontribusi Pada {{ year }}
             </div>
         </div>
 
@@ -61,14 +61,30 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import activityIcon from "../assets/activity.svg";
 
 const props = defineProps({
     year: {
         type: Number,
         required: true
+    },
+    contributions: {
+        type: Array,
+        default: () => []
     }
+});
+
+const contributionMap = computed(() => {
+    const map = {};
+    props.contributions.forEach(item => {
+        map[item.date] = item.count;
+    });
+    return map;
+});
+
+const totalContributions = computed(() => {
+    return props.contributions.reduce((sum, item) => sum + item.count, 0);
 });
 
 const levelClasses = {
@@ -78,14 +94,6 @@ const levelClasses = {
     3: 'bg-[#646ccf]',
     4: 'bg-[#7c84ff]'
 };
-
-const contributionData = ref({
-    "2026-01-01": 1,
-});
-
-const totalContributions = computed(() => {
-    return Object.values(contributionData.value).reduce((sum, val) => sum + val, 0);
-});
 
 const getLevel = (count) => {
     if (!count || count === 0) return 0;
@@ -111,7 +119,7 @@ const daysData = computed(() => {
         const dateStr = String(d.getDate()).padStart(2, '0');
         const formattedDate = `${yearStr}-${monthStr}-${dateStr}`;
 
-        const count = contributionData.value[formattedDate] || 0;
+        const count = contributionMap.value[formattedDate] || 0;
 
         data.push({
             date: formattedDate,

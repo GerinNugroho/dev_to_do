@@ -50,7 +50,7 @@
 
     <!-- Main content area -->
     <div class="flex-1 flex flex-col overflow-hidden min-w-0">
-      <header class="flex items-center justify-between px-4 md:px-6 py-3 md:py-5.5
+      <header class="flex items-center justify-between px-4 md:px-6 py-3 md:py-7
                      border-b border-[#1e2530] bg-[#0d1117] shrink-0">
         <div class="flex items-center gap-2">
           <button @click="toggleSidebar"
@@ -58,15 +58,6 @@
             <img :src="burgerbuttonIcon" alt="Menu" class="w-4.5 h-4.5 opacity-70" />
           </button>
           <span class="text-[10px] font-bold tracking-[0.2em] text-indigo-400 uppercase">DevTodo</span>
-        </div>
-
-        <!-- GitHub badge -->
-        <div class="flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-full
-                    border border-emerald-500/40 bg-emerald-900/10
-                    text-emerald-400 text-[10px] md:text-[11px] font-semibold tracking-wide whitespace-nowrap">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot shrink-0" />
-          <span class="hidden sm:inline">GITHUB CONNECTED</span>
-          <span class="sm:hidden">CONNECTED</span>
         </div>
       </header>
 
@@ -79,7 +70,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import homeIcon from '../../assets/house.svg?url'
 import analyticsIcon from '../../assets/analytic.svg?url'
@@ -104,8 +95,12 @@ const isLoggingOut = ref(false);
 const router = useRouter()
 const authStore = useAuthStore();
 
+const isCompleteModalOpen = ref(false)
+const selectedTask = ref(null)
+
 function toggleSidebar() { sidebarOpen.value = !sidebarOpen.value }
 function closeSidebar() { sidebarOpen.value = false }
+
 
 const userInitials = computed(() => {
   const name = authStore.user?.fullname;
