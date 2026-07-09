@@ -13,11 +13,12 @@
         <div class="flex items-center gap-3">
           <div class="w-9 h-9 font-bold rounded-xl bg-linear-to-br from-indigo-500 to-purple-600
                       flex items-center justify-center shadow-lg shadow-indigo-900/40">
-            LO
+            {{ userInitials }}
           </div>
           <div>
-            <div class="text-sm font-bold text-white tracking-tight">Lao Deh</div>
-            <div class="text-[10px] text-gray-500">Project Manager</div>
+            <div class="text-sm font-bold text-white tracking-tight">{{ authStore.user?.username || "Loading..." }}
+            </div>
+            <!-- <div class="text-[10px] text-gray-500">Project Manager</div> -->
           </div>
         </div>
       </div>
@@ -78,7 +79,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import homeIcon from '../../assets/house.svg?url'
 import analyticsIcon from '../../assets/analytic.svg?url'
@@ -105,6 +106,19 @@ const authStore = useAuthStore();
 
 function toggleSidebar() { sidebarOpen.value = !sidebarOpen.value }
 function closeSidebar() { sidebarOpen.value = false }
+
+const userInitials = computed(() => {
+  const name = authStore.user?.fullname;
+
+  if (!name) return "??";
+
+  const words = name.trim().split(' ')
+  if (words.length > 1) {
+    return (words[0][0] + words[1][0]).toUpperCase()
+  }
+
+  return words[0].substring(0, 2).toUpperCase()
+})
 
 async function handleLogOut() {
   isLoggingOut.value = true;
