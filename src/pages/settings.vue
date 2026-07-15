@@ -5,7 +5,9 @@
     <ProfileCard @edit="onEditProfile" :profile="configStore.profile || {}" />
 
     <!-- GitHub Integration -->
-    <GithubSection v-model:patValue="formConfig.pat" v-model:repoUrl="formConfig.repo" />
+    <GithubSection v-model:patValue="formConfig.pat" v-model:repoUrl="formConfig.repo"
+      @repo-validation-change="isRepoValid = $event" @pat-validation-change="isPatValid = $event"
+      v-model:isChanged="isChanged" />
 
     <!-- AI Features -->
     <AiSection v-model="formConfig" />
@@ -15,11 +17,11 @@
     <!-- Action Bar -->
     <div class="flex items-center justify-end gap-3 py-2 md:py-0">
       <button @click="discardChanges" class="px-4 md:px-5 py-2.5 rounded-xl text-sm font-semibold
-               text-gray-400 hover:text-white hover:bg-[#1e2530] transition-colors">
+               text-gray-400 hover:text-white hover:bg-[#090a0c] transition-colors">
         Discard Changes
       </button>
-      <button @click="handleSaveConfig"
-        class="btn-save flex items-center gap-2 px-4 md:px-5 py-2.5 rounded-xl text-sm font-bold text-white shadow-lg">
+      <button :disabled="!isChanged || !isRepoValid || !isPatValid" @click="handleSaveConfig"
+        class="btn-save flex items-center gap-2 px-4 md:px-5 py-2.5 rounded-xl text-sm font-bold text-white shadow-lg disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-gray-800 disabled:shadow-none">
         <img :src="saveIcon" width="14" height="14" alt="" class="invert brightness-0" />
         Save Configuration
       </button>
@@ -62,7 +64,6 @@ import AiSection from '../components/Aisection.vue'
 import EditProfileModal from '../components/EditProfileModal.vue'
 
 const configStore = useConfigStore()
-
 const isEditModalOpen = ref(false)
 
 const formConfig = ref({
@@ -70,6 +71,12 @@ const formConfig = ref({
   repo: "",
   nlp: true,
 })
+
+const isRepoValid = ref(formConfig.value.repo ? true : false)
+const isPatValid = ref(formConfig.value.pat ? true : false)
+const isChanged = ref(false)
+
+console.log(isChanged.value);
 
 const initForm = () => {
   if (configStore.config) {
@@ -85,6 +92,10 @@ const toast = ref({ show: false, message: '', success: true })
 let toastTimer = null
 
 onMounted(async () => {
+  if (configStore.config?.pat && configStore.config?.repo) {
+    initForm();
+    return;
+  }
   await configStore.fetchAllSettings();
   initForm();
 })
@@ -98,16 +109,20 @@ function showToast(message, success) {
 
 const discardChanges = () => {
   initForm();
+  isChanged.value = false
 }
 
 const handleSaveConfig = async () => {
+  if (!isRepoValid.value || !isPatValid.value) return;
   try {
     const result = await configStore.saveConfiguration(formConfig.value);
     if (result?.status === "success") {
       showToast('Configuration saved!', true)
+      isChanged.value = false
     }
   } catch (error) {
     showToast("Failed to save Configuration", false)
+    isChanged.value = false
   }
 }
 

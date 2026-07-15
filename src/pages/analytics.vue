@@ -35,45 +35,35 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import AnalyticCards from '../components/AnalyticCards.vue';
 import GraphActivity from '../components/GraphActivity.vue';
 import gearSolidIcon from "../assets/gear-solid.svg";
-import { dashboardServices } from '../services/dashboardServices.js';
-dashboardServices
+import { useDashboardStore } from '../stores/dashboard.js';
 
-const currentYear = ref(2026);
-const isLoading = ref(true);
-
-const metrics = ref({
+const dashboardStore = useDashboardStore();
+const currentYear = computed(() => Number(dashboardStore.currentYear || 2026));
+const isLoading = computed(() => dashboardStore.analyticsLoading);
+const metrics = computed(() => dashboardStore.analyticsMetrics || {
     completedTasks: 0,
     lateTasks: 0,
     totalTasks: 0,
     focusScore: 0,
-    contributionGrid: []
+    contributionGrid: [],
 });
 
-const fetchAnalyticsData = async () => {
-    try {
-        isLoading.value = true;
-
-        const response = await dashboardServices.getAnalyticsData(currentYear.value);
-        if (response.data?.status === 'success') {
-            metrics.value = response.data.data;
-        }
-    } catch (error) {
-        console.error("Gagal mengonsumsi API analitik:", error);
-    } finally {
-        isLoading.value = false;
-    }
+const fetchAnalyticsData = async ({ force = true } = {}) => {
+    await dashboardStore.fetchAnalytics({ year: currentYear.value, force });
 };
 
-watch(currentYear, () => {
-    fetchAnalyticsData();
+watch(currentYear, (newYear, oldYear) => {
+    if (newYear !== oldYear) {
+        fetchAnalyticsData({ force: true });
+    }
 });
 
 onMounted(() => {
-    fetchAnalyticsData();
+    fetchAnalyticsData({ force: true });
 });
 </script>
 

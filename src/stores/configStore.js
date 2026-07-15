@@ -8,6 +8,10 @@ export const useConfigStore = defineStore("config", {
     isLoading: false,
   }),
 
+  persist: {
+    pick: ["config", "profile"],
+  },
+
   actions: {
     async fetchAllSettings() {
       this.isLoading = true;
@@ -30,7 +34,6 @@ export const useConfigStore = defineStore("config", {
     async saveConfiguration(updatedData) {
       this.isLoading = true;
       try {
-        // Mapping dari nama form frontend ke key req.body backend Anda
         const payload = {
           personal_access_token: updatedData.pat,
           repo_url: updatedData.repo,
@@ -39,7 +42,7 @@ export const useConfigStore = defineStore("config", {
 
         const result = await configServices.updateUserConfig(payload);
         if (result.status === "success") {
-          this.config = result.data.config; // Perbarui state global
+          this.config = result.data.config;
         }
         return result;
       } finally {

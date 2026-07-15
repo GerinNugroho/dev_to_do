@@ -19,9 +19,9 @@
       <span v-if="card.priority" :class="['px-2 py-0.5 text-[10px] font-bold rounded border', card.priorityColor]">
         !{{ card.priority }}
       </span>
-      <span v-if="card.tag"
+      <span v-if="card.tags.length > 0" v-for="tag in card.tags" :key="card.id"
         class="px-2 py-0.5 text-[10px] font-semibold rounded bg-[#1e2530] text-indigo-400 border border-[#30363d]">
-        #{{ card.tag }}
+        #{{ tag.name }}
       </span>
     </div>
 

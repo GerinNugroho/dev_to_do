@@ -30,8 +30,8 @@
         <KanbanColHeader label="Branches" dot="bg-gray-500" :count="branchesList.length" />
         <div class="space-y-3">
           <BranchesCard v-for="branch in branchesList" :key="branch.id" :title="branch.name"
-            :status="selectedBranch === branch.name" :priority="2" :hashtag="branch.name"
-            @click="selectBranchFilter(branch.name)"
+            :status="selectedBranch === branch.name" @click="openBranchModal(branch.name)"
+            @delete="openDeleteBranchModal(branch.name)"
             class="cursor-pointer transition-all border border-transparent rounded-xl hover:border-gray-700" />
           <div v-if="branchesList.length === 0" class="text-xs text-gray-600 text-center py-4 italic">
             No branches found.
@@ -87,8 +87,9 @@
         <div v-if="activeTab === 'branches'" class="space-y-3">
           <KanbanColHeader label="Branches" dot="bg-gray-500" :count="branchesList.length" />
           <BranchesCard v-for="branch in branchesList" :key="branch.id" :title="branch.name"
-            :status="selectedBranch === branch.name" :priority="2" :hashtag="branch.name"
-            @click="selectBranchFilter(branch.name)" />
+            :status="selectedBranch === branch.name" @click="openBranchModal(branch.name)"
+            @delete="openDeleteBranchModal(branch.name)"
+            class="cursor-pointer transition-all border border-transparent rounded-xl hover:border-gray-700" />
           <div v-if="branchesList.length === 0" class="text-xs text-gray-600 text-center py-4 italic">
             No branches found.
           </div>
@@ -98,7 +99,7 @@
         <div v-if="activeTab === 'inprogress'" class="space-y-3">
           <KanbanColHeader label="In Progress" dot="bg-yellow-400" :count="inProgressCards.length" />
           <KanbanCard v-for="(card, i) in inProgressCards" :key="card.id" :card="card" :delay-class="Math.min(i + 1, 4)"
-            @remove="removeCard" @click="openCompleteModal(card)" />
+            @remove="removoCard(card.id)" @click="openCompleteModal(card)" />
 
           <div v-if="inProgressCards.length === 0" class="text-xs text-gray-600 text-center py-4 italic">
             No active tasks.
@@ -117,6 +118,15 @@
       </div>
     </div>
 
+    <TaskActionModal :is-open="isModalOpen" :task="selectedTask" :is-loading="isLoading" @close="closeModal"
+      @complete="completeTask" />
+
+    <RemoveItemModel :is-open="isDeleteBranchModalOpen" title="Delete Branch"
+      :description="branchToDelete ? `Delete branch ${branchToDelete}? This action cannot be undone.` : 'Choose a branch to delete.'"
+      tag="delete" :meta="branchToDelete ? `Branch ${branchToDelete}` : 'Branch deletion'" confirm-text="Delete"
+      cancel-text="Cancel" variant="delete" :is-loading="isLoading" @close="closeDeleteBranchModal"
+      @confirm="confirmDeleteBranch" />
+
     <div class="h-2 md:h-0" />
 
     <!-- Status Bar (desktop) -->
@@ -133,66 +143,13 @@
           </svg>
         </span>
         <span class="flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot" />
-          <span class="text-emerald-400">Sync with GitHub active</span>
+          <span :class="isGithubConnected ? 'bg-emerald-500' : 'bg-rose-500'"
+            class="w-1.5 h-1.5 rounded-full pulse-dot" />
+          <span :class="isGithubConnected ? 'text-emerald-400' : 'text-rose-400'"> {{ isGithubConnected ? `Sync With
+            Github active` : `Github disconnected` }}</span>
         </span>
       </div>
     </div>
-
-    <!-- POPUP MODAL: Presisi Desain Sesuai Ref image_ee06c4.png -->
-    <div v-if="isModalOpen && selectedTask" @click.self="closeModal"
-      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md font-mono transition-all duration-300">
-
-      <!-- Modal Card Box Container -->
-      <div
-        class="w-full max-w-md rounded-xl border border-[#1e2530] bg-[#11151d] p-6 space-y-6 shadow-2xl shadow-black/80 animate-scaleUp">
-
-        <!-- Header: Judul dengan garis pembatas horizontal penuh -->
-        <div class="border-b border-[#1e2530] pb-4">
-          <h2 class="text-sm md:text-base font-bold text-gray-200 tracking-wide">
-            Task Action
-          </h2>
-        </div>
-
-        <!-- Body: Area Detail Konten Task -->
-        <div class="space-y-3 py-1">
-          <div class="flex items-center gap-2 text-[11px] text-gray-500">
-            <span
-              class="px-2 py-0.5 rounded text-[10px] font-semibold bg-indigo-950/40 text-indigo-400 border border-indigo-900/30">
-              #{{ selectedTask.tag || 'general' }}
-            </span>
-            <span>•</span>
-            <span>{{ selectedTask.meta }}</span>
-          </div>
-
-          <!-- Box teks deskripsi task -->
-          <p
-            class="text-gray-300 text-xs md:text-sm leading-relaxed bg-[#0d1017] p-3 rounded-lg border border-[#1e2530]/60 break-words">
-            {{ selectedTask.title }}
-          </p>
-        </div>
-
-        <!-- Footer: Posisi Kanan (Cancel berupa teks biasa, Tombol utama solid Indigo) -->
-        <div class="flex items-center justify-end gap-3 pt-2">
-          <button @click="closeModal"
-            class="px-4 py-2 text-xs md:text-sm font-bold text-gray-400 hover:text-gray-200 transition-colors outline-none">
-            Cancel
-          </button>
-
-          <button @click="completeTask" :disabled="isUpdatingStatus"
-            class="flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-lg bg-emerald-950/40 text-emerald-400 border border-emerald-800/40 text-xs font-bold hover:bg-emerald-900/30 transition-all disabled:opacity-50">
-            <svg v-if="!isUpdatingStatus" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-            <!-- PERBAIKAN: Teks diubah menjadi Mark as Completed -->
-            {{ isUpdatingStatus ? 'Processing...' : 'Mark as Completed' }}
-          </button>
-        </div>
-
-      </div>
-    </div>
-
   </div>
 </template>
 
@@ -202,7 +159,10 @@ import taskIcon from '../assets/scroll.svg?url'
 import KanbanCard from '../components/KanbanCard.vue'
 import BranchesCard from '../components/BranchesCard.vue'
 import CompletedCard from '../components/CompletedCard.vue'
-import { dashboardServices } from '../services/dashboardServices.js'
+import TaskActionModal from '../components/TaskActionModal.vue'
+import BranchActionModal from '../components/BranchActionModal.vue'
+import RemoveItemModel from '../components/RemoveItemModel.vue'
+import { useDashboardStore } from '../stores/dashboard.js'
 
 
 const KanbanColHeader = (props) => {
@@ -233,43 +193,62 @@ KanbanColHeader.props = {
 
 const cmdValue = ref('')
 const activeTab = ref('branches')
+const dashboardStore = useDashboardStore()
 
-const branchesList = ref([])
-const allTasks = ref([])
-const selectedBranch = ref('main')
-
+const branchesList = computed(() => dashboardStore.branches)
+const allTasks = computed(() => dashboardStore.currentTasks)
+const selectedBranch = computed({
+  get: () => dashboardStore.selectedBranch,
+  set: (value) => {
+    dashboardStore.selectedBranch = value
+  },
+})
 const isLoading = ref(false)
-
 const isModalOpen = ref(false)
 const selectedTask = ref(null)
-const isUpdatingStatus = ref(false)
+const isBranchModalOpen = ref(false)
+const selectedBranchItem = ref(null)
+const isDeleteBranchModalOpen = ref(false)
+const branchToDelete = ref(null)
+const isGithubConnected = computed(() => dashboardStore.isGithubConnected)
 
 const openCompleteModal = (card) => {
   selectedTask.value = card
   isModalOpen.value = true
 }
 
+const openBranchModal = (branchName) => {
+  selectedBranchItem.value = branchName
+  if (!selectedBranchItem.value) return
+  selectBranchFilter(selectedBranchItem.value)
+
+}
+
+const selectBranchFilter = async (branchName) => {
+  if (selectedBranch.value === branchName) return
+  await dashboardStore.selectBranch(branchName)
+}
+
+const openDeleteBranchModal = (branchName) => {
+  branchToDelete.value = branchName
+  isDeleteBranchModalOpen.value = true
+}
+
+const closeDeleteBranchModal = () => {
+  isDeleteBranchModalOpen.value = false
+  branchToDelete.value = null
+}
+
+const confirmDeleteBranch = async () => {
+  if (!branchToDelete.value) return
+
+  await dashboardStore.removeBranch(branchToDelete.value)
+  closeDeleteBranchModal()
+}
+
 const closeModal = () => {
   isModalOpen.value = false
   selectedTask.value = null
-}
-
-const completeTask = async () => {
-  if (!selectedTask.value || isUpdatingStatus.value) return
-
-  try {
-    isUpdatingStatus.value = true
-    const response = await dashboardServices.updateTaskStatus(selectedTask.value.id, 'COMPLETED')
-
-    if (response.status === 200 || response.data?.status === 'success') {
-      closeModal()
-      await fetchTasks()
-    }
-  } catch (error) {
-    console.error("Gagal update status via PATCH:", error)
-  } finally {
-    isUpdatingStatus.value = false
-  }
 }
 
 const tabs = [
@@ -281,7 +260,7 @@ const tabs = [
 
 const PRIORITY_COLOR = {
   HIGH: 'bg-red-900/40 text-red-400 border-red-800/40',
-  MED: 'bg-orange-900/40 text-orange-400 border-orange-800/40',
+  MEDIUM: 'bg-orange-900/40 text-orange-400 border-orange-800/40',
   LOW: 'bg-blue-900/30 text-blue-400 border-blue-800/30',
 }
 
@@ -291,9 +270,9 @@ const inProgressCards = computed(() => {
     .map(task => ({
       id: task.id,
       title: task.title,
-      priority: 'MED',
-      priorityColor: PRIORITY_COLOR.MED,
-      tag: task.branch?.name || null,
+      priority: task.priority,
+      priorityColor: PRIORITY_COLOR[task.priority],
+      tags: task.tags ? task.tags : task.branch.name,
       active: true,
       meta: task.created_at ? formatTimeAgo(task.created_at) : 'just now',
       pr: null
@@ -310,39 +289,31 @@ const completedCards = computed(() => {
     }))
 })
 
-const fetchBranches = async () => {
+const completeTask = async () => {
+  if (!selectedTask.value || isLoading.value) return
+
   try {
-    const response = await dashboardServices.getBranches()
-    if (response.data?.status === 'success') {
-      branchesList.value = response.data.data.branches
-    }
+    isLoading.value = true
+    await dashboardStore.completeTaskStatus(selectedTask.value.id)
+    closeModal()
   } catch (error) {
-    console.error('Gagal mengambil data branch:', error)
+    console.error("Gagal menyelesaikan task:", error)
+  } finally {
+    isLoading.value = false
   }
 }
 
-const fetchTasks = async () => {
-  try {
-    const response = await dashboardServices.getTask(selectedBranch.value || undefined)
-    if (response.data?.status === 'success') {
-      allTasks.value = response.data.data.tasks
-    }
-  } catch (error) {
-    console.error('failed to fetching datas task:', error)
+watch(selectedBranch, (newBranch, oldBranch) => {
+  if (newBranch && newBranch !== oldBranch) {
+    dashboardStore.fetchTasks({ branchName: newBranch })
   }
-}
-
-const selectBranchFilter = (branchName) => {
-  selectedBranch.value = branchName
-}
-
-watch(selectedBranch, () => {
-  fetchTasks()
 })
 
 onMounted(() => {
-  fetchBranches()
-  fetchTasks()
+  Promise.all([
+    dashboardStore.fetchBranches({ force: true }),
+    dashboardStore.fetchTasks({ branchName: selectedBranch.value })
+  ])
 })
 
 function formatTimeAgo(dateString) {
@@ -362,23 +333,8 @@ const submitCmd = async () => {
 
   try {
     isLoading.value = true
-
-    const response = await dashboardServices.processNlpCommand(val, selectedBranch.value)
-
-    if (response.status === 201) {
-      const result = response.data
-
-      if (result.type === 'CREATE_BRANCH') {
-        await fetchBranches()
-        selectedBranch.value = result.data.branch_name
-      }
-
-      else if (result.type === 'CREATE_TASK') {
-        await fetchTasks()
-      }
-
-      cmdValue.value = ''
-    }
+    await dashboardStore.processNlpInput(val)
+    cmdValue.value = ''
   } catch (error) {
     console.error("Gagal memproses perintah dengan NLP AI:", error)
     alert(error.response?.data?.error || "Terjadi kesalahan pada server NLP")
@@ -391,11 +347,7 @@ const removoCard = async (id) => {
   if (!confirm("Are you sure you want to permanently delete this task?")) return
 
   try {
-    const response = await dashboardServices.deleteTask(id)
-
-    if (response.status === 200 || response.data?.status === 'success') {
-      allTasks.value = allTasks.value.filter(c => c.id !== id)
-    }
+    await dashboardStore.deleteTaskById(id)
   } catch (error) {
     console.error("Gagal menghapus task:", error)
     alert(error.response?.data?.error || "Terjadi kesalahan saat menghapus task.")

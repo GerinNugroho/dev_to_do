@@ -104,7 +104,6 @@ function closeSidebar() { sidebarOpen.value = false }
 
 const userInitials = computed(() => {
   const name = authStore.user?.fullname;
-
   if (!name) return "??";
 
   const words = name.trim().split(' ')

@@ -3,26 +3,22 @@
 
     <!-- Header -->
     <div class="p-4 pb-3">
-      <div class="flex items-start justify-between mb-3 text-sm font-semibold text-white">
-        {{ title }}
-        <span v-if="status" class="text-green-400">(Active)</span>
+      <div class="flex items-center justify-between w-full mb-3">
+        <div class="flex items-start justify-between text-sm font-semibold text-white">
+          {{ title }}
+        </div>
+        <button type="button" @click.stop.prevent="emit('delete')"
+          class="text-gray-600 hover:text-red-400 transition-colors shrink-0" aria-label="Delete branch">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
       </div>
-      <div class="flex items-center gap-1.5 flex-wrap">
-        <span v-if="priority === 1"
-          class="px-2 py-0.5 text-[10px] font-bold rounded bg-red-900/40 text-red-400 border border-red-800/40">
-          !HIGH
-        </span>
-        <span v-else-if="priority === 2"
-          class="px-2 py-0.5 text-[10px] font-bold rounded bg-orange-900/40 text-orange-400 border border-orange-800/40">
-          !MED
-        </span>
-        <span v-else-if="priority === 3"
-          class="px-2 py-0.5 text-[10px] font-bold rounded bg-blue-900/40 text-blue-400 border border-blue-800/40">
-          !LOW
-        </span>
-        <span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-[#1e2530] text-indigo-400 border border-[#30363d]">
-          #{{ hashtag }}
-        </span>
+      <div class="flex items-center gap-1.5 flex-wrap h-5.5">
+        <span v-if="status"
+          class="px-2 py-0.5 text-[10px] font-bold rounded bg-green-900/40 text-green-400 border border-green-800/40">!Active</span>
       </div>
     </div>
 
@@ -42,11 +38,12 @@
         <line x1="0" y1="32" x2="280" y2="32" stroke="#1e2530" stroke-width="1" />
         <line x1="0" y1="64" x2="280" y2="64" stroke="#1e2530" stroke-width="1" />
         <line x1="0" y1="96" x2="280" y2="96" stroke="#1e2530" stroke-width="1" />
-        <path d="M0,90 C30,80 50,60 70,55 C90,50 110,70 130,65 C150,60 170,30 200,25 C220,20 250,35 280,30 L280,130 L0,130 Z"
+        <path
+          d="M0,90 C30,80 50,60 70,55 C90,50 110,70 130,65 C150,60 170,30 200,25 C220,20 250,35 280,30 L280,130 L0,130 Z"
           fill="url(#areaGrad)" />
         <path class="chart-line"
-          d="M0,90 C30,80 50,60 70,55 C90,50 110,70 130,65 C150,60 170,30 200,25 C220,20 250,35 280,30"
-          fill="none" stroke="url(#lineGrad)" stroke-width="2" />
+          d="M0,90 C30,80 50,60 70,55 C90,50 110,70 130,65 C150,60 170,30 200,25 C220,20 250,35 280,30" fill="none"
+          stroke="url(#lineGrad)" stroke-width="2" />
         <g opacity="0.5">
           <rect x="10" y="80" width="12" height="45" rx="2" fill="#6366f1" opacity="0.6" />
           <rect x="30" y="65" width="12" height="60" rx="2" fill="#6366f1" opacity="0.7" />
@@ -68,10 +65,10 @@
 </template>
 
 <script setup>
+const emit = defineEmits(['delete'])
+
 defineProps({
   title: { type: String, required: true },
   status: { type: Boolean, default: false },
-  priority: { type: Number, default: null },
-  hashtag: { type: String, default: '' },
 })
 </script>
