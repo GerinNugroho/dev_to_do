@@ -31,7 +31,7 @@
         <div class="space-y-3">
           <BranchesCard v-for="branch in branchesList" :key="branch.id" :title="branch.name"
             :status="selectedBranch === branch.name" @click="openBranchModal(branch.name)"
-            @delete="openDeleteBranchModal(branch.name)"
+            @delete="openDeleteBranchModal(branch)"
             class="cursor-pointer transition-all border border-transparent rounded-xl hover:border-gray-700" />
           <div v-if="branchesList.length === 0" class="text-xs text-gray-600 text-center py-4 italic">
             No branches found.
@@ -88,7 +88,7 @@
           <KanbanColHeader label="Branches" dot="bg-gray-500" :count="branchesList.length" />
           <BranchesCard v-for="branch in branchesList" :key="branch.id" :title="branch.name"
             :status="selectedBranch === branch.name" @click="openBranchModal(branch.name)"
-            @delete="openDeleteBranchModal(branch.name)"
+            @delete="openDeleteBranchModal(branch)"
             class="cursor-pointer transition-all border border-transparent rounded-xl hover:border-gray-700" />
           <div v-if="branchesList.length === 0" class="text-xs text-gray-600 text-center py-4 italic">
             No branches found.
@@ -122,8 +122,8 @@
       @complete="completeTask" />
 
     <RemoveItemModel :is-open="isDeleteBranchModalOpen" title="Delete Branch"
-      :description="branchToDelete ? `Delete branch ${branchToDelete}? This action cannot be undone.` : 'Choose a branch to delete.'"
-      tag="delete" :meta="branchToDelete ? `Branch ${branchToDelete}` : 'Branch deletion'" confirm-text="Delete"
+      :description="branchToDelete ? `Delete branch ${branchToDelete.name}? This action cannot be undone.` : 'Choose a branch to delete.'"
+      tag="delete" :meta="branchToDelete ? `Branch ${branchToDelete.name}` : 'Branch deletion'" confirm-text="Delete"
       cancel-text="Cancel" variant="delete" :is-loading="isLoading" @close="closeDeleteBranchModal"
       @confirm="confirmDeleteBranch" />
 
@@ -162,7 +162,7 @@ import CompletedCard from '../components/CompletedCard.vue'
 import TaskActionModal from '../components/TaskActionModal.vue'
 import BranchActionModal from '../components/BranchActionModal.vue'
 import RemoveItemModel from '../components/RemoveItemModel.vue'
-import { useDashboardStore } from '../stores/dashboard.js'
+import { useDashboardStore } from '../stores/dashboardStore.js'
 
 
 const KanbanColHeader = (props) => {
@@ -229,8 +229,8 @@ const selectBranchFilter = async (branchName) => {
   await dashboardStore.selectBranch(branchName)
 }
 
-const openDeleteBranchModal = (branchName) => {
-  branchToDelete.value = branchName
+const openDeleteBranchModal = (branchObject) => {
+  branchToDelete.value = branchObject
   isDeleteBranchModalOpen.value = true
 }
 
@@ -240,10 +240,17 @@ const closeDeleteBranchModal = () => {
 }
 
 const confirmDeleteBranch = async () => {
-  if (!branchToDelete.value) return
+  if (!branchToDelete.value || isLoading.value) return
 
-  await dashboardStore.removeBranch(branchToDelete.value)
-  closeDeleteBranchModal()
+  try {
+    isLoading.value = true
+    await dashboardStore.removeBranch(branchToDelete.value.id) // Mengirim ID unik ke store
+    closeDeleteBranchModal()
+  } catch (error) {
+    alert(error.response?.data?.message || "Gagal menghapus branch.")
+  } finally {
+    isLoading.value = false
+  }
 }
 
 const closeModal = () => {
@@ -303,17 +310,30 @@ const completeTask = async () => {
   }
 }
 
-watch(selectedBranch, (newBranch, oldBranch) => {
-  if (newBranch && newBranch !== oldBranch) {
-    dashboardStore.fetchTasks({ branchName: newBranch })
-  }
-})
+// watch(selectedBranch, (newBranch, oldBranch) => {
+//   if (newBranch && newBranch !== oldBranch) {
+//     dashboardStore.fetchTasks({ branchName: newBranch })
+//   }
+// })
 
-onMounted(() => {
-  Promise.all([
-    dashboardStore.fetchBranches({ force: true }),
-    dashboardStore.fetchTasks({ branchName: selectedBranch.value })
-  ])
+// onMounted(() => {
+//   Promise.all([
+//     dashboardStore.fetchBranches({ force: true }),
+//     dashboardStore.fetchTasks({ branchName: selectedBranch.value })
+//   ])
+// })
+
+onMounted(async () => {
+  try {
+    isLoading.value = true
+    await dashboardStore.fetchBranches()
+    await dashboardStore.fetchTasks({ branchName: selectedBranch.value })
+    await dashboardStore.fetchAnalytics()
+  } catch (error) {
+    console.error("Gagal melakukan inisialisasi awal dashboard:", error)
+  } finally {
+    isLoading.value = false
+  }
 })
 
 function formatTimeAgo(dateString) {

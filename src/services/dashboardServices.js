@@ -18,4 +18,5 @@ export const dashboardServices = {
     apiClient.get("/analytic/dashboard", {
       params: { year },
     }),
+  deleteBranch: (branchId) => apiClient.delete(`/branch/delete/${branchId}`),
 };

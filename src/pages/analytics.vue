@@ -39,7 +39,7 @@ import { computed, onMounted, watch } from 'vue';
 import AnalyticCards from '../components/AnalyticCards.vue';
 import GraphActivity from '../components/GraphActivity.vue';
 import gearSolidIcon from "../assets/gear-solid.svg";
-import { useDashboardStore } from '../stores/dashboard.js';
+import { useDashboardStore } from '../stores/dashboardStore.js';
 
 const dashboardStore = useDashboardStore();
 const currentYear = computed(() => Number(dashboardStore.currentYear || 2026));

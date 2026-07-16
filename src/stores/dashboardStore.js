@@ -108,6 +108,13 @@ export const useDashboardStore = defineStore("dashboard", {
             const nextBranches = response.data.data.branches || [];
             this.branches = nextBranches;
             this.isGithubConnected = response.data.data.isGithubConnected;
+
+            if (force) {
+              this.tasksByBranch = {};
+              this.currentTasks = [];
+              this.analyticsByYear = {};
+            }
+
             return nextBranches;
           }
 
@@ -181,23 +188,36 @@ export const useDashboardStore = defineStore("dashboard", {
       return this.fetchTasks({ branchName: this.selectedBranch, force: true });
     },
 
-    async removeBranch(branchName) {
-      this.branches = this.branches.filter(
-        (branch) => branch.name !== branchName,
-      );
+    async removeBranch(branchId) {
+      try {
+        const targetBranch = this.branches.find((b) => b.id === branchId);
+        if (!targetBranch) return;
 
-      if (this.selectedBranch === branchName) {
-        this.selectedBranch = this.branches[0]?.name || "main";
+        const branchName = targetBranch.name;
+
+        await dashboardServices.deleteBranch(branchId);
+
+        this.branches = this.branches.filter(
+          (branch) => branch.id !== branchId,
+        );
+
+        if (this.selectedBranch === branchName) {
+          this.selectedBranch = this.branches[0]?.name || "main";
+        }
+
+        delete this.tasksByBranch[branchName];
+
+        if (this.selectedBranch && this.tasksByBranch[this.selectedBranch]) {
+          this.currentTasks = this.tasksByBranch[this.selectedBranch];
+        } else {
+          this.currentTasks = [];
+        }
+
+        await this.fetchAnalytics({ year: this.currentYear, force: true });
+      } catch (error) {
+        console.error("Gagal menghapus branch melalui action store:", error);
+        throw error;
       }
-
-      delete this.tasksByBranch[branchName];
-      if (this.selectedBranch && this.tasksByBranch[this.selectedBranch]) {
-        this.currentTasks = this.tasksByBranch[this.selectedBranch];
-      } else {
-        this.currentTasks = [];
-      }
-
-      await this.fetchAnalytics({ year: this.currentYear, force: true });
     },
 
     async fetchAnalytics({ year = this.currentYear, force = false } = {}) {
@@ -292,6 +312,20 @@ export const useDashboardStore = defineStore("dashboard", {
       }
 
       return null;
+    },
+    resetCache() {
+      this.branches = [];
+      this.selectedBranch = "main";
+      this.tasksByBranch = {};
+      this.currentTasks = [];
+      this.analyticsByYear = {};
+      this.analyticsMetrics = {
+        completedTasks: 0,
+        lateTasks: 0,
+        totalTasks: 0,
+        focusScore: 0,
+        contributionGrid: [],
+      };
     },
   },
 });

@@ -36,7 +36,7 @@
 
       <!-- Logout -->
       <div class="px-3 py-4 border-t border-[#1e2530]">
-        <button @click="handleLogOut" :disabled="isLoggingOut" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
+        <button @click="openLogoutModal" :disabled="isLoggingOut" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
                  text-gray-400 hover:text-red-400 hover:bg-red-900/10 transition-colors
                  bg-transparent border-0 cursor-pointer font-mono">
           <img :src="logoutIcon" class="opacity-60 shrink-0" width="16" height="16" alt="" />
@@ -44,6 +44,25 @@
         </button>
       </div>
     </aside>
+
+    <!-- Logout Modal -->
+    <div v-if="showLogoutModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 px-4">
+      <div class="w-full max-w-sm rounded-2xl border border-[#1e2530] bg-[#161b22] p-5 shadow-2xl">
+        <h3 class="text-lg font-semibold text-white">Log out of your account?</h3>
+        <p class="mt-2 text-sm text-gray-400">Are you sure you want to log out from this app?</p>
+
+        <div class="mt-5 flex justify-end gap-3">
+          <button @click="closeLogoutModal"
+            class="rounded-lg border border-[#30363d] bg-transparent px-4 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-[#1f2937]">
+            Cancel
+          </button>
+          <button @click="confirmLogOut" :disabled="isLoggingOut"
+            class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-500 disabled:opacity-60">
+            {{ isLoggingOut ? 'Logging out...' : 'Yes, Logout' }}
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- Backdrop -->
     <div v-if="sidebarOpen" @click="closeSidebar" class="fixed inset-0 bg-black/50 z-40 md:hidden" />
@@ -91,16 +110,18 @@ const navLinks = [
 ]
 
 const sidebarOpen = ref(false)
-const isLoggingOut = ref(false);
+const isLoggingOut = ref(false)
+const showLogoutModal = ref(false)
 const router = useRouter()
-const authStore = useAuthStore();
+const authStore = useAuthStore()
 
 const isCompleteModalOpen = ref(false)
 const selectedTask = ref(null)
 
 function toggleSidebar() { sidebarOpen.value = !sidebarOpen.value }
 function closeSidebar() { sidebarOpen.value = false }
-
+function openLogoutModal() { showLogoutModal.value = true }
+function closeLogoutModal() { showLogoutModal.value = false }
 
 const userInitials = computed(() => {
   const name = authStore.user?.fullname;
@@ -114,16 +135,18 @@ const userInitials = computed(() => {
   return words[0].substring(0, 2).toUpperCase()
 })
 
-async function handleLogOut() {
-  isLoggingOut.value = true;
+async function confirmLogOut() {
+  isLoggingOut.value = true
   try {
-    await authStore.handleLogout();
+    await authStore.handleLogout()
+    closeLogoutModal()
     router.push({ name: "Login" })
   } catch {
-    console.log("Gagal mengirim request ke server!");
+    console.log("Gagal mengirim request ke server!")
+    closeLogoutModal()
     router.push({ name: "Login" })
   } finally {
-    isLoggingOut.value = false;
+    isLoggingOut.value = false
   }
 }
 </script>

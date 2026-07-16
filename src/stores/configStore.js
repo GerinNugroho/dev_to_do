@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { configServices } from "../services/configServices.js";
 import { useAuthStore } from "./auth.js";
+import { useDashboardStore } from "./dashboardStore.js";
 export const useConfigStore = defineStore("config", {
   state: () => ({
     config: null,
@@ -43,6 +44,9 @@ export const useConfigStore = defineStore("config", {
         const result = await configServices.updateUserConfig(payload);
         if (result.status === "success") {
           this.config = result.data.config;
+
+          const dashboardStore = useDashboardStore();
+          dashboardStore.resetCache();
         }
         return result;
       } finally {
