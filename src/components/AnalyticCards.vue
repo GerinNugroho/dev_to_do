@@ -10,7 +10,8 @@
                 </span>
             </div>
             <div class="relative z-10">
-                <p class="text-xl"><span class="text-4xl text-green-200 group-hover:text-green-500 card-hover">1</span>
+                <p class="text-xl"><span class="text-4xl text-green-200 group-hover:text-green-500 card-hover">{{ count
+                }}</span>
                     Task</p>
             </div>
 
@@ -26,7 +27,8 @@
                 </span>
             </div>
             <div class="relative z-10">
-                <p class="text-xl"><span class="text-4xl text-red-200 group-hover:text-red-500 card-hover">1</span>
+                <p class="text-xl"><span class="text-4xl text-red-200 group-hover:text-red-500 card-hover">{{ count
+                        }}</span>
                     Task
                 </p>
             </div>
@@ -43,8 +45,8 @@
                 </span>
             </div>
             <div class="relative z-10">
-                <p class="text-xl"><span
-                        class="text-4xl text-yellow-200 group-hover:text-yellow-500 card-hover">3</span>
+                <p class="text-xl"><span class="text-4xl text-yellow-200 group-hover:text-yellow-500 card-hover">{{
+                    count }}</span>
                     Task</p>
             </div>
 
@@ -59,7 +61,16 @@ import totalIcon from "../assets/total.svg";
 import warningIcon from "../assets/warning.svg";
 import confirmIcon from "../assets/confirm.svg";
 
-defineProps(['card']);
+const props = defineProps({
+    card: {
+        type: Number,
+        required: true
+    },
+    count: {
+        type: Number,
+        default: 0
+    }
+});
 </script>
 <style scoped>
 @reference "../style.css";

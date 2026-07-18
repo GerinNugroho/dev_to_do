@@ -15,72 +15,38 @@
             </div>
         </div>
 
-        <!-- Toggle rows -->
-        <div class="px-4 md:px-5 py-4 space-y-3">
-            <div v-for="item in items" :key="item.key"
+        <!-- NLP toggle row -->
+        <div class="px-4 md:px-5 py-4">
+            <div
                 class="flex items-start justify-between gap-4 p-3 md:p-4 rounded-xl bg-[#0d1117] border border-[#1e2530]">
                 <div class="min-w-0">
-                    <div class="text-sm font-semibold text-white">{{ item.label }}</div>
-                    <div class="text-[11px] text-gray-500 mt-1 leading-relaxed">{{ item.desc }}</div>
-                </div>
-                <label class="relative inline-flex items-center cursor-pointer shrink-0 mt-0.5">
-                    <input type="checkbox" :checked="modelValue[item.key]" @change="onToggle(item.key)"
-                        class="sr-only peer" />
-                    <div
-                        class="w-11 h-6 bg-[#30363d] peer-checked:bg-indigo-600 rounded-full transition-colors peer-focus:outline-none">
-                        <div
-                            class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5">
-                        </div>
+                    <div class="text-sm font-semibold text-white">NLP Task Input</div>
+                    <div class="text-[11px] text-gray-500 mt-1 leading-relaxed">
+                        Convert natural language descriptions into structured dev-tasks automatically.
                     </div>
-                </label>
+                </div>
+                <button @click="toggle" class="shrink-0 mt-0.5 cursor-pointer" aria-label="Toggle NLP">
+                    <img v-if="modelValue.nlp" :src="toggleOnIcon" width="36" height="36" alt="On"
+                        class="icon-indigo" />
+                    <img v-else :src="toggleOffIcon" width="36" height="36" alt="Off" class="opacity-40" />
+                </button>
             </div>
         </div>
     </div>
 </template>
 
-<script>
+<script setup>
 import aiIcon from '../assets/AI-logo.svg?url'
+import toggleOnIcon from '../assets/Toggleon.svg?url'
+import toggleOffIcon from '../assets/Toggleoff.svg?url'
 
-export default {
-    name: 'AiSection',
+const props = defineProps({
+    modelValue: { type: Object, required: true },
+})
 
-    props: {
-        // { nlp: Boolean, priority: Boolean, autotag: Boolean }
-        modelValue: { type: Object, required: true },
-    },
+const emit = defineEmits(['update:modelValue'])
 
-    emits: ['update:modelValue'],
-
-    data() {
-        return {
-            aiIcon,
-            items: [
-                {
-                    key: 'nlp',
-                    label: 'NLP Task Input',
-                    desc: 'Convert natural language descriptions into structured dev-tasks automatically.',
-                },
-                {
-                    key: 'priority',
-                    label: 'Smart Priority Suggestions',
-                    desc: 'Automatically suggest task priority based on description keywords and deadlines.',
-                },
-                {
-                    key: 'autotag',
-                    label: 'Auto-Tag from Commit',
-                    desc: 'Parse commit messages to automatically tag and categorize related tasks.',
-                },
-            ],
-        }
-    },
-
-    methods: {
-        onToggle(key) {
-            this.$emit('update:modelValue', {
-                ...this.modelValue,
-                [key]: !this.modelValue[key],
-            })
-        },
-    },
+function toggle() {
+    emit('update:modelValue', { ...props.modelValue, nlp: !props.modelValue.nlp })
 }
 </script>
