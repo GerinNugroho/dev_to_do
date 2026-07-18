@@ -76,8 +76,6 @@ const isRepoValid = ref(formConfig.value.repo ? true : false)
 const isPatValid = ref(formConfig.value.pat ? true : false)
 const isChanged = ref(false)
 
-console.log(isChanged.value);
-
 const initForm = () => {
   if (configStore.config) {
     formConfig.value = {

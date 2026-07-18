@@ -29,8 +29,28 @@
                     class="text-gray-300 text-xs md:text-sm leading-relaxed bg-[#0d1017] p-3 rounded-lg border border-[#1e2530]/60 break-words">
                     {{ task.title }}
                 </p>
+                <!-- ── KOTAK PERINTAH GIT OTOMATIS (UX BARU) ── -->
+                <div class="space-y-2 bg-[#07090d] p-3 rounded-lg border border-[#1e2530] text-left">
+                    <div
+                        class="flex items-center justify-between text-gray-400 border-b border-[#1e2530]/60 pb-1.5 mb-1">
+                        <span class="text-indigo-400 text-[10px] font-bold tracking-wider">💡 GIT VALIDATOR REQ</span>
+                        <span
+                            class="text-[9px] bg-indigo-950/50 text-indigo-300 px-1 py-0.5 rounded border border-indigo-900/40 font-bold">
+                            Tag: {{ taskTag }}
+                        </span>
+                    </div>
+                    <div
+                        class="flex items-center gap-2 bg-black/40 border border-[#1e2530]  rounded text-emerald-400 relative group">
+                        <div class="flex-1 overflow-x-auto p-5">
+                            <code class="pr-12 whitespace-nowrap text-[12px] mb-4">{{ generatedGitCommand }}</code>
+                        </div>
+                        <button @click="copyCommand"
+                            class="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-0.5 rounded text-[9px] font-sans font-bold bg-[#1e2530] hover:bg-[#293342] text-gray-300 border border-[#2d3748] transition-all outline-none">
+                            {{ isCopied ? 'Copied ✓' : 'Copy' }}
+                        </button>
+                    </div>
+                </div>
             </div>
-
             <!-- Footer: Posisi Kanan (Cancel berupa teks biasa, Tombol utama solid Indigo) -->
             <div class="flex items-center justify-end gap-3 pt-2">
                 <button @click="$emit('close')"
@@ -54,7 +74,8 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed, ref } from 'vue';
+const props = defineProps({
     isOpen: {
         type: Boolean,
         required: true,
@@ -70,6 +91,33 @@ defineProps({
 });
 
 defineEmits(['close', 'complete']);
+
+const isCopied = ref(false);
+const taskTag = computed(() => {
+    return props.task?.id ? props.task.id.split('-')[0] : '';
+});
+const generatedGitCommand = computed(() => {
+    if (!props.task) return '';
+    const cleanTitle = props.task.title
+        .toLowerCase()
+        .replace(/[^a-zA-Z0-9\s]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    return `git commit -m "feat: ${cleanTitle} #${taskTag.value}" && git push`;
+});
+
+const copyCommand = async () => {
+    try {
+        await navigator.clipboard.writeText(generatedGitCommand.value);
+        isCopied.value = true;
+        setTimeout(() => {
+            isCopied.value = false;
+        }, 2000);
+    } catch (err) {
+        console.error('Gagal menyalin perintah teks ke clipboard:', err);
+    }
+};
 
 </script>
 

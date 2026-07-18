@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import apiClient from "../services/apiCLient";
 import { authService } from "../services/authServices";
+import { useDashboardStore } from "./dashboardStore";
+import { useConfigStore } from "./configStore";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -11,6 +13,11 @@ export const useAuthStore = defineStore("auth", {
 
   actions: {
     async handleRegister(userData) {
+      const dashboardStore = useDashboardStore();
+      const configStore = useConfigStore();
+      dashboardStore.resetCache();
+      configStore.resetCache();
+
       this.isLoading = true;
       try {
         const result = await authService.register(userData);
@@ -25,6 +32,11 @@ export const useAuthStore = defineStore("auth", {
     },
 
     async handleLogin(credentials) {
+      const dashboardStore = useDashboardStore();
+      const configStore = useConfigStore();
+      dashboardStore.resetCache();
+      configStore.resetCache();
+
       this.isLoading = true;
       try {
         const result = await authService.login(credentials);
@@ -40,7 +52,11 @@ export const useAuthStore = defineStore("auth", {
     },
 
     async handleLogout() {
+      const dashboardStore = useDashboardStore();
+      const configStore = useConfigStore();
       try {
+        dashboardStore.resetCache();
+        configStore.resetCache();
         await authService.logout();
       } finally {
         this.user = null;

@@ -52,7 +52,7 @@
 import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 import FieldInput from '../components/fieldInput.vue';
-import { useAuthStore } from "../stores/auth.js";
+import { useAuthStore } from "../stores/authStore.js";
 
 const router = useRouter();
 const authStore = useAuthStore();

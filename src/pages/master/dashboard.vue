@@ -96,7 +96,7 @@ import analyticsIcon from '../../assets/analytic.svg?url'
 import settingIcon from '../../assets/gear.svg?url'
 import logoutIcon from '../../assets/logout.svg?url'
 import burgerbuttonIcon from '../../assets/list.svg?url'
-import { useAuthStore } from '../../stores/auth'
+import { useAuthStore } from '../../stores/authStore.js'
 
 const navLinkClass = [
   'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium',

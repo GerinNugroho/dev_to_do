@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { configServices } from "../services/configServices.js";
-import { useAuthStore } from "./auth.js";
+import { useAuthStore } from "./authStore.js";
 import { useDashboardStore } from "./dashboardStore.js";
 export const useConfigStore = defineStore("config", {
   state: () => ({
@@ -10,11 +10,15 @@ export const useConfigStore = defineStore("config", {
   }),
 
   persist: {
+    storage: sessionStorage,
     pick: ["config", "profile"],
   },
 
   actions: {
     async fetchAllSettings() {
+      if (this.config) {
+        return;
+      }
       this.isLoading = true;
       try {
         const [configRes, profileRes] = await Promise.all([
@@ -75,6 +79,10 @@ export const useConfigStore = defineStore("config", {
       } finally {
         this.isLoading = false;
       }
+    },
+    resetCache() {
+      this.config = null;
+      this.profile = null;
     },
   },
 });

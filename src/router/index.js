@@ -7,7 +7,7 @@ import Register from "../pages/register.vue";
 import Home from "../pages/home.vue";
 import Settings from "../pages/settings.vue";
 import Analytics from "../pages/analytics.vue";
-import { useAuthStore } from "../stores/auth.js";
+import { useAuthStore } from "../stores/authStore.js";
 
 const routes = [
   {

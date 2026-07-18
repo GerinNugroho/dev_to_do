@@ -10,22 +10,40 @@ const defaultMetrics = {
 };
 
 const normalizeAnalyticsPayload = (payload = {}, year = 2026) => {
-  const rawContributionGrid = Array.isArray(payload.contributionGrid)
-    ? payload.contributionGrid
-    : Array.isArray(payload.contribution_grid)
-      ? payload.contribution_grid
-      : Array.isArray(payload.contributions)
-        ? payload.contributions
-        : payload.contributionGrid &&
-            typeof payload.contributionGrid === "object"
-          ? Object.entries(payload.contributionGrid)
-          : payload.contribution_grid &&
-              typeof payload.contribution_grid === "object"
-            ? Object.entries(payload.contribution_grid)
-            : [];
+  // const rawContributionGrid = Array.isArray(payload.contributionGrid)
+  //   ? payload.contributionGrid
+  //   : Array.isArray(payload.contribution_grid)
+  //     ? payload.contribution_grid
+  //     : Array.isArray(payload.contributions)
+  //       ? payload.contributions
+  //       : payload.contributionGrid &&
+  //           typeof payload.contributionGrid === "object"
+  //         ? Object.entries(payload.contributionGrid)
+  //         : payload.contribution_grid &&
+  //             typeof payload.contribution_grid === "object"
+  //           ? Object.entries(payload.contribution_grid)
+  //           : [];
+
+  const extractRawGrid = (pay) => {
+    if (!pay) return [];
+    if (Array.isArray(pay.contributionGrid)) return pay.contributionGrid;
+    if (Array.isArray(pay.contribution_grid)) return pay.contribution_grid;
+    if (Array.isArray(pay.contributions)) return pay.contributions;
+
+    if (pay.contributionGrid && typeof pay.contributionGrid === "object") {
+      return Object.entries(pay.contributionGrid);
+    }
+    if (pay.contribution_grid && typeof pay.contribution_grid === "object") {
+      return Object.entries(pay.contribution_grid);
+    }
+
+    return [];
+  };
+
+  const rawContributionGrid = extractRawGrid(payload);
 
   const contributionGrid = rawContributionGrid.map((item) => {
-    if (typeof item === "object" && item !== null) {
+    if (typeof item === "object" && item !== null && !Array.isArray(item)) {
       const date = item.date || item.day || item.key || item.label || null;
       const count = Number(item.count ?? item.value ?? item.total ?? 0);
       return date ? { date, count } : item;
@@ -79,6 +97,7 @@ export const useDashboardStore = defineStore("dashboard", {
   }),
 
   persist: {
+    storage: sessionStorage,
     paths: [
       "branches",
       "selectedBranch",

@@ -304,7 +304,8 @@ const completeTask = async () => {
     await dashboardStore.completeTaskStatus(selectedTask.value.id)
     closeModal()
   } catch (error) {
-    console.error("Gagal menyelesaikan task:", error)
+    console.error("detail error:", error)
+    alert("commit your changes first, then try again. or check your internet connection.")
   } finally {
     isLoading.value = false
   }
